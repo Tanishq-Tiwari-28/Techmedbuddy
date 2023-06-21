@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Course ID : 3</h1>
+    <p>Description: Lorem ipsum dolor sit, amet consectetur adipisicing elit. Assumenda earum, at corrupti sit temporibus dolorum minima commodi reiciendis dolore maiores adipisci ut. Fuga.</p>
+    <button onclick=fun()>Register</button>
+</body>
+<script>
+    const fun = async () => {
+        const request = await fetch("register/");
+        const data = request.json();
+
+        if (data.response === "Registered") {
+            // course is registered 
+        }
+        else {
+            // it will show an error
+        }
+    }
+</script>
+
+</html>
