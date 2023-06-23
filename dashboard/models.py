@@ -51,7 +51,7 @@ class Instructor(models.Model):
         db_table = 'instructor'
 
 class Course(models.Model):
-    course_id = models.CharField(primary_key=True, max_length=255,)
+    course_id = models.CharField(primary_key=True, max_length=255)
     course_name = models.CharField(max_length=255)
     image = models.CharField(max_length=1000)
     instructor_id = models.ManyToManyField(Instructor)
@@ -70,7 +70,7 @@ class Course(models.Model):
     prerequisites = models.TextField(
         db_column='Prerequisites', blank=True, null=True)
     learning_outcomes = models.TextField(blank=True, null=True)
-    course_context = models.TextField(blank=True, null=True)
+    course_content = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = True
@@ -112,21 +112,32 @@ class StudentOptedCourses(models.Model):
 
 
 
-# class Seminar(models.Model):
-#     event_id = models.AutoField(primary_key=True)
-#     event_name = models.CharField(max_length=255)
-#     event_domain = models.CharField(max_length=255)
-#     event_description = models.CharField(max_length=255, blank=True, null=True)
-#     event_location = models.CharField(max_length=255)
-#     event_speaker = models.CharField(max_length=255)
-#     event_duration = models.IntegerField()
-#     event_date = models.DateField()
-#     event_mode = models.CharField(max_length=7)
-#     event_type = models.CharField(max_length=255)
-#     students_enrolled = models.IntegerField()
-#     available_seats = models.IntegerField()
-#     registration_price = models.DecimalField(max_digits=10, decimal_places=2)
+class Event(models.Model):
+    event_id = models.AutoField(primary_key=True)
+    event_name = models.CharField(max_length=255)
+    event_banner = models.TextField(blank=True, null=True)
+    speaker_image = models.TextField(blank=True, null=True)
+    event_link = models.TextField(blank=True, null=True)
+    event_description = models.CharField(max_length=255, blank=True, null=True)
+    event_speaker = models.CharField(max_length=255)
+    event_date = models.DateField()
+    # event_time = models.TimeField()
+    event_duration = models.IntegerField()
+    event_mode = models.CharField(max_length=7)
+    students_enrolled = models.IntegerField() 
+    available_seats = models.IntegerField()
+    event_fees = models.DecimalField(max_digits=10, decimal_places=2)
+    is_past = models.BooleanField(default=False)
+    class Meta:
+        managed = True
+        db_table = 'Event'
 
-#     class Meta:
-#         managed = False
-#         db_table = 'seminar'
+
+
+class event_registration(models.Model):
+    student_id = models.ForeignKey(Student, blank=True,
+                                   null=True,  on_delete=models.CASCADE)
+    event_id = models.ForeignKey(Event, blank=True,
+                                   null=True,  on_delete=models.CASCADE)
+    class Meta:
+        managed = True

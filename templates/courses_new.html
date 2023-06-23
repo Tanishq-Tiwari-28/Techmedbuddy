@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
@@ -8,19 +8,18 @@
         <link rel="stylesheet" href="main.css">
         <title>TechMedBuddy</title>
     </head>
-    <body class="">
+    <body class="bg-blue-950">
     
         <!--------------------------------- Header --------------------------------->
         <header class="flex ">
             <nav class="z-30 bg-white flex justify-between fixed w-full h-16 shadow-md p-4">
                 <ul class="flex font-semibold text-xl">
-                    <li class="mr-4 hover:text-blue-800 "><a href="index.html">Home</a></li>
-                    <li class="mr-4 hover:text-blue-800 "><a href="about.html">About</a></li>
-                    <li class="mr-4 hover:text-blue-800 "><a href="courses.html">Courses</a></li>
-                    <li class="group mr-4"><a href="#" class="hover:text-blue-800 ">Teams</a>
+                    <li class="mr-4 hover:text-blue-800 "><a href="/">Home</a></li>
+                    <li class="mr-4 hover:text-blue-800 "><a href="">About</a></li>
+                    <li class="group mr-4"><a href="" class="hover:text-blue-800 ">Teams</a>
                         <ul class="hidden absolute flex-col group-hover:flex bg-white p-2 shadow-lg shadow-gray-400">
                             <li class="hover:text-blue-800  py-2">
-                                <a href="instructors.html">Instructors</a>
+                                <a href="/all_instructors">Instructors</a>
                             </li>
                             <li class="hover:text-blue-800 py-2">
                                 <a href="">Technical Team</a>
@@ -30,13 +29,18 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="mr-4 hover:text-blue-800 "><a href="events.html">Events</a></li>
+                    <li class="mr-4 hover:text-blue-800 "><a href="/all_events">Events</a></li>
                 </ul>
     
                 <ul class="flex font-semibold text-xl">
-                    <li class="mr-4 hover:text-blue-800 "><a href="#">Interns</a></li>
-                    <li class="mr-4 hover:text-blue-800 "><a href="#">Login</a></li>
-                    <li class="mr-4 hover:text-blue-800 "><a href="#">Sign up</a></li>
+                    <li class="mr-4 hover:text-blue-800 "><a href="">Interns</a></li>
+                    {% if not user.is_authenticated %}
+                    <li class="mr-4 hover:text-blue-800 "><a href="/login">Login</a></li>
+                    <li class="mr-4 hover:text-blue-800 "><a href="/signup">Sign up</a></li>
+                    {% endif %}
+                    {% if user.is_authenticated %}
+                        <li class="mr-4 hover:text-blue-800 "><a href="/logout">Logout</a></li>
+                    {% endif %}
                 </ul>
             </nav>
             <div style="margin-left: 50%;" class="z-40 fixed flex bg-white rounded-full shadow-md ml-96 ">
@@ -90,136 +94,79 @@
             
             
         </header>
-
-        <div class="mt-16 p-4 text-white w-full h-1/2 bg-blue-950 flex">
-            <div class="w-2/3 flex flex-col mx-10">
-                <h1 class="text-3xl md:text-5xl font-bold md:font-extrabold my-5">R for Bioinformatics: Unlocking the Power of Data Analysis</h1>
-                <div class="flex mt-4 p-4 text-2xl font-medium text-gray-300">
-                    <div class="flex flex-col">
-                        <div class="m-1">Instructors:</div>
-                        <div class="m-1">Course Fee:</div>
-                        <div class="m-1">Duration:</div>
-                        <div class="m-1">Available Seats:</div>
-                    </div>
-                    <div class="flex flex-col ml-2 text-xl">
-                        <div class="m-2">Alok Anand and Prakriti Garg</div>
-                        <div class="m-1">&#8377; 1000</div>
-                        <div class="m-2 mb-1">30 Hours</div>
-                        <div class="m-2">30</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- <div class="mt-16 p-4 text-white w-full h-1/2 bg-blue-950 flex">
-            <div class="w-2/3 flex flex-col mx-10">
-                <h1 class="text-center text-3xl md:text-5xl font-bold md:font-extrabold my-5 mx-auto">{{course.course_name}}</h1>
-                <div class="flex mx-auto mt-4 p-4 text-2xl font-medium text-gray-300">
-                    <div class="flex flex-col">
-                        <div class="m-1">Instructors:</div>
-                        <div class="m-1">Course Fee:</div>
-                        <div class="m-1">Duration:</div>
-                        <div class="m-1">Available Seats:</div>
-                    </div>
-                    <div class="flex flex-col ml-2 text-xl" >
-                        {% for instructor in course.instructor_id.all %}<div class="m-2">{{instructor.instructor_name}}</div>{% endfor %}
-                        <div class="m-1">&#8377; {{course.cost}}</div>
-                        <div class="m-2 mb-1">{{course.course_duration}}</div>
-                        <div class="m-2">{{course.available_seats}}</div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-        <div class="p-4 text-white w-full h-1/2 flex justify-end z-10">
-            <div class="-mt-72 w-[30%] h-auto shadow-lg shadow-slate-500 bg-white p-4 flex flex-col justify-between rounded-md mr-6">
-                <div class="w-auto h-[200px] md:h-[250px] lg:h-[300px] rounded-md bg-center bg-contain bg-no-repeat" style="background-image: url(/images/r.jpg);"></div>
-                <a href="">
-                    <div class="bg-blue-900 p-2 rounded-lg text-center font-semibold text-2xl mt-3 hover:bg-cyan-600">Start Learning</div>
-                </a>
-            </div>
-        </div>
+        
+        <div class="courses grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 2xl:gap-0 bg-blue-950 h-1/4 mt-20">
     
-        <div class="course-layout flex">
-
-            <!--------------------- course content --------------------->
-            <div class="course-content w-2/3 p-4 mx-5 -mt-10 ml-10 rounded-2xl flex flex-col justify-around">
-                <div class="p-4 m-6 ml-10 rounded-2xl bg-cyan-50">
-                    <h1 class="text-3xl font-medium ">Description</h1>
-                    <p class="text-md font-normal my-6">Through interactive lectures, hands-on exercises, and real-world case studies, students will gain a solid foundation in R programming and its application to bioinformatics. By the end of the course, students will be able to code and debug their problems and analyze biological datasets such as transcriptome and sequential datasets, i.e., Genome in R language with the number of packages.</p>
+            <!---------------------------- Course card 1 --------------------->
+            {% for course in courses %}
+            <div class="2 w-auto bg-white p-2 m-4 rounded-md flex flex-col">
+                <div class="w-full h-40 rounded-sm bg-center bg-no-repeat" style="background-image: url({{course.course.image}});">
+                
                 </div>
-                <div class="p-4 m-6 ml-10 rounded-2xl bg-cyan-50 text-xl">
-                    <h1 class="text-3xl font-medium my-3 mb-4">Course content</h1>
-                    <div class="my-2">Module 1:  Basics of programming</div>
-                    <div class="my-2">Module 2:  Loops and conditionals</div>
-                    <div class="my-2">Module 3:  Dataframes and manipulation of data</div>
-                    <div class="my-2">Module 4:  Basic statistics and analysis</div>
-                    <div class="my-2">Module 5:  Microarray data analysis and GSEA</div>
-                    <div class="my-2">Module 6:  Introduction to TCGA data</div>
-                    <div class="my-2">Module 7:  Differential expression analysis of SC-RNA seq data analysis</div>
-                </div>
-            </div>
-            <div class="pre-requisite-section w-1/3 flex flex-col justify-start">
-                <div class=" m-6 p-4 mr-10 rounded-lg shadow-lg shadow-slate-500 border border-slate-200 flex flex-col justify-around">
-                    <div class="pre-requisite ml-4 p-4">
-                        <h1 class="text-3xl font-medium">Pre - requisite:</h1>
-                        <div class="p-2 m-2 text-lg font-light">
-                            <li>Willingness to learn</li>
-                            <li>Basics of Biology</li>
+                <div class="content flex-col p-2 flex grow justify-between">
+                    <div class="title font-bold">{{course.course.course_name}}</div>
+                    <div class="info">{{course.course.course_description}}</div>
+                    <div class="flex-col pt-4">
+                        <div class="flex">
+                            <div>
+                                <!-- svg here -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16">
+                                    <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+                                    <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/>
+                                </svg>
+                            </div>
+                            <div class="px-2 -mt-1">{{course.course.course_duration}}</div>
                         </div>
                         
-                    </div>
-                    <div class="learning-outcome ml-5">
-                        <h1 class="font-medium text-2xl">Learning Outcome</h1>
-                        <div class="ml-6 p-2 m-2 text-lg font-light">
-                            <li>First</li>
-                            <li>Second</li>
-                            <li>Third</li>
+                        <div class="flex">
+                            <div class="mt-1">
+                                <!-- svg here -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-book" viewBox="0 0 16 16">
+                                    <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811V2.828zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492V2.687zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z"/>
+                                  </svg>
+                                    
+                            </div>
+                            <div class="px-2">{{course.course.course_tags}}</div>
                         </div>
                     </div>
+                    <div class="rating  flex mb-5">
+                        <div class="h-4 mx-1"><svg class="w-5" width="40" height="35" viewBox="0 0 40 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20 0L24.7148 13.1287H39.9722L27.6287 21.2426L32.3435 34.3713L20 26.2574L7.65651 34.3713L12.3713 21.2426L0.027813 13.1287H15.2852L20 0Z" fill="#2F2E41"/>
+                            </svg>
+                        </div>
+    
+                        <div class="h-4 mx-1"><svg class="w-5" width="40" height="35" viewBox="0 0 40 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20 0L24.7148 13.1287H39.9722L27.6287 21.2426L32.3435 34.3713L20 26.2574L7.65651 34.3713L12.3713 21.2426L0.027813 13.1287H15.2852L20 0Z" fill="#2F2E41"/>
+                            </svg>
+                        </div>
+    
+                        <div class="h-4 mx-1"><svg class="w-5" width="40" height="35" viewBox="0 0 40 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20 0L24.7148 13.1287H39.9722L27.6287 21.2426L32.3435 34.3713L20 26.2574L7.65651 34.3713L12.3713 21.2426L0.027813 13.1287H15.2852L20 0Z" fill="#2F2E41"/>
+                            </svg>
+                        </div>
+    
+                        <div class="h-4 mx-1"><svg class="w-5" width="40" height="35" viewBox="0 0 40 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20 0L24.7148 13.1287H39.9722L27.6287 21.2426L32.3435 34.3713L20 26.2574L7.65651 34.3713L12.3713 21.2426L0.027813 13.1287H15.2852L20 0Z" fill="#2F2E41"/>
+                            </svg>
+                        </div>
+    
+                        <div class="h-4"><svg class="w-5" width="40" height="35" viewBox="0 0 40 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20 0L24.7148 13.1287H39.9722L27.6287 21.2426L32.3435 34.3713L20 26.2574L7.65651 34.3713L12.3713 21.2426L0.027813 13.1287H15.2852L20 0Z" fill="#2F2E41"/>
+                            </svg>
+                        </div>
+                    </div>
+    
+                    <a href="/all_courses/{{ course.course.course_id}}"  rel="noopener noreferrer">
+                        <div class="btn flex-row bg-cyan-600 p-3 -mb-1 rounded-md text-center text-white font-bold hover:bg-blue-950 hover:font-extrabold">
+                            Join Now
+                        </div>
+                    </a>
                 </div>
             </div>
-        </div>
-        
-        <!----------------------- Instructor section -------------------->
-        
-        <div class="bg-blue-950 p-5">
-            <div class="flex flex-col w-[80%] mx-auto shadow-2xl bg-white rounded-lg">
-                <h1 class="font-bold text-3xl p-4">Know your Instructors</h1>
-                <div class="w-full p-4 flex justify-around">
-                    
-                    <div class="w-3/4 flex flex-col justify-center">
-                        <p class="p-4 text-base leading-7">
-                            With strong foundational skills in biostatistics, Machine Learning and Deep Learning, I am working with a multi-omics approach to Cancer Biology. With more than 6+ years of teaching experience, I am passionate about interacting with youths and guiding and teaching them from course curriculum to real life issues.
-    
-                        </p>
-                    </div>
-                    
-                    <div class="w-1/4 flex flex-col justify-around">
-                        <div class="w-60 h-60 lg:w-40 lg:h-40 bg-slate-300 mx-auto rounded-xl  bg-cover bg-no-repeat " style="background-image: url();"></div>
-                        <div class="text-center text-black font-semibold">Alok Anand </div>
-                        <div class="text-center text-black">P.hD. (Computational Biology , IIITD) </div>
-                    </div>
-                </div>
-    
-                <div class="w-full p-4 flex justify-around">
-                    
-                    <div class="w-3/4 flex flex-col justify-center">
-                        <p class="p-4 text-base leading-7">
-                            Being a graduate in Computer science with Bio-sciences, I am highly passionate about the intersection of Computer Science, Artificial Intelligence and its application in the Healthcare domain. Other than academia, I love to teach and interact with youth and guide them from my experience.
-                        </p>
-                    </div>
-                    
-                    <div class="w-1/4 flex flex-col justify-around">
-                        <div class="w-60 h-60 lg:w-40 lg:h-40 bg-slate-300 mx-auto rounded-xl  bg-cover bg-no-repeat " style="background-image: url(images/prakriti_garg.jpg);"></div>
-                        <div class="text-center text-black font-semibold">Prakriti Garg</div>
-                        <div class="text-center text-black">B.Tec. CSB(IIITD)</div>
-                    </div>
-    
-                </div>
-                
-            </div>
-        </div>
+            {% endfor %}
+            <!---------------------------- Course card 2 --------------------->
 
+        </div>
 
     </body>
-
 </html>

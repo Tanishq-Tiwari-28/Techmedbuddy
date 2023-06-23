@@ -2,7 +2,7 @@ from django.contrib.sessions.backends.db import SessionStore
 from django.shortcuts import render,  HttpResponseRedirect
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
-from .models import Course, Student, StudentOptedCourses, student_academics
+from .models import Course, Student, StudentOptedCourses, student_academics , Event , event_registration
 from django.db.models import Q
 from django.contrib.auth.hashers import make_password, check_password
 from datetime import datetime, date, time
@@ -13,7 +13,7 @@ from django.db import connection
 
 
 def home(request):
-    return render(request, 'index.html')
+    return render(request, 'index_new.html')
 
 
 def signup_view(request):
@@ -95,7 +95,21 @@ def all_courses(request):
         instructors = list(course.instructor_id.all())
         courses.append({'course': course, 'instructors': instructors})
         print(instructors)
-    return render(request, "courses.html", {'courses': courses})
+    return render(request, "courses_new.html", {'courses': courses})
+
+
+
+def instructors(request):
+    return render(request , 'instructors_new.html')
+
+
+def events(request):
+    all_events = Event.objects.all()
+    events = []
+    for event in all_events:
+        events.append({'event': event})
+    return render(request , 'events.html' , {'events':events})
+
 
 
 def register_courses(request, course_id):
@@ -108,7 +122,7 @@ def register_courses(request, course_id):
         #     student_opted_course.course_id = course_id
         #     student_opted_course.save()
         return HttpResponseRedirect("/payment/")
-    return render(request, 'course.html', {'course': course})
+    return render(request, 'course_new.html', {'course': course})
 
 
 def verification(request, course_id):

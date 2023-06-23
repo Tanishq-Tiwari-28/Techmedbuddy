@@ -11,6 +11,8 @@ urlpatterns = [
     path('login/', login_view),
     path('logout/', logout),
     path('all_courses/', all_courses),
+    path('all_instructors/', instructors),
+    path('all_events/' , events),
     path('all_courses/<int:course_id>/', register_courses),
     path('all_courses/<int:course_id>/verification/', verification),
     # path('test/', test),
