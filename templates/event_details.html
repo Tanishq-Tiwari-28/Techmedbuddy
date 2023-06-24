@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="main.css">
     <title>TechMedBuddy</title>
 </head>
-<body class="">
+<body class="bg-slate-100">
 
     <!--------------------------------- Header --------------------------------->
     <header class="flex ">
@@ -17,10 +17,10 @@
 				<li class="mr-4 hover:text-blue-800 "><a href="/">Home</a></li>
                 <li class="mr-4 hover:text-blue-800 "><a href="">About</a></li>
 				<li class="mr-4 hover:text-blue-800 "><a href="/all_courses">Courses</a></li>
-                <li class="group mr-4"><a href="#" class="hover:text-blue-800 ">Teams</a>
+                <li class="group mr-4"><a href="" class="hover:text-blue-800 ">Teams</a>
                     <ul class="hidden absolute flex-col group-hover:flex bg-white p-2 shadow-lg shadow-gray-400">
                         <li class="hover:text-blue-800  py-2">
-                            <a href="/all_instructors">Instructors</a>
+                            <a href="/all_instuctors">Instructors</a>
                         </li>
                         <li class="hover:text-blue-800 py-2">
                             <a href="">Technical Team</a>
@@ -95,118 +95,80 @@
         
 		
 	</header>
+    <div class="mt-20 w-[1000px] h-[250px] mx-auto rounded my-2 bg-slate-300"></div>
+    <div class="w-[1000px] h-[250px] mx-auto">
+        <div class="text-2xl font-semibold p-2">{{event.event_name}}</div>
 
-    <div class="mt-20 w-auto sm:w-[700px] md:w-[1000px] h-[250px] mx-auto rounded p-2 my-2 bg-blue-900"></div>
-    
-    <!----live events--->
-    <div class="w-auto sm:w-[700px] md:w-[1000px] mx-auto p-4 text-xl font-semibold">Live Events</div>
-    <div class=" mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4 w-auto h-auto sm:w-[700px] md:w-[1000px]  shadow-gray-400">
-        {% if live_events %}
-            {% for event in live_events %}
-            <div class="w-auto h-[400px] shadow-xl border border-slate-300 shadow-slate-500 rounded-md p-4 flex flex-col justify-between">
-                <div class="w-full h-40 rounded-sm bg-slate-300 bg-cover bg-center bg-no-repeat" style="background-image: url();">
-                </div>
-
-                <div class="text-xl font-medium py-4">{{event.event.event_name}}</div>
-                <div class="">
-                    {{event.event.event_description}}
-                </div>
-
-                <div class="flex justify-between my-4">
-                    <div class="flex flex-col justify-between">
-                        <div class="text-slate-600">Event Date</div>
-                        <div class="">{{event.event.event_datetime}}</div>
-                    </div>
-                    <div class="flex flex-col justify-between">
-                        <div class="text-slate-600 text-base">Event Fee</div>
-                        <div class="">{{event.event.event_fees}}</div>
-                    </div>
-                </div>
-
-                <a href="/all_events/{{ event.event.event_name }}">
-                    <div class="text-white bg-blue-950 hover:bg-cyan-600 text-center rounded-lg p-2">Register Now</div>
-                </a>
+        <div class="flex justify-around p-2">
+            <div class="flex flex-col justify-around">
+                <div class="text-slate-600">Date</div>
+                <div class="">{{event.event_datetime|date}}</div>
             </div>
-            {%endfor%}
-        {% else %}
-            <div class="text-center text-xl font-semibold py-4">No Live Events Right Now</div>
-        {% endif %}
-    
+            <div class="flex flex-col justify-around">
+                <div class="text-slate-600">Timings</div>
+                <div class="">{{event.event_datetime|time}}</div>
+            </div>
+            <div class="flex flex-col justify-around">
+                <div class="text-slate-600">Duration</div>
+                <div class="">{{event.event_duration}}</div>
+            </div>
+            <div class="flex flex-col justify-around">
+                <div class="text-slate-600">Venue</div>
+                <div class="">{{event.event_venue}}</div>
+            </div>
+            <div class="flex flex-col justify-around">
+                <div class="text-slate-600">Event Fee</div>
+                <div class="">{{event.event_fees}}</div>
+            </div>
+        </div>
+
+        <div class="flex flex-col justify-around shadow-xl shadow-slate-500 border border-slate-200 rounded-lg my-4">
+            <h1 class="text-2xl font-medium p-4 mt-2">Description</h1>
+            <p class="p-4 text-md m-2">
+                {{event.event_description}}
+            </p>
+            <h1 class="text-2xl font-medium px-4 mt-2">Know the Speaker</h1>
+            <div class="w-full px-4 flex justify-around">
+                    
+                <div class="w-3/4 flex flex-col justify-center">
+                    <p class="p-4 text-md">
+                        Why did the bioinformatician always carry a map? Because they didn't want to get lost in the sequence of genes! Why did the bioinformatician always carry a map? Because they didn't want to get lost in the sequence of genes!
+                    </p>
+                </div>
+                
+                <div class="w-1/4 flex flex-col justify-around">
+                    <div class="w-60 h-60 lg:w-40 lg:h-40 bg-slate-300 mx-auto rounded-xl  bg-cover bg-no-repeat " style="background-image: url();"></div>
+                    <div class="text-center text-black font-semibold p-2">Speaker Name</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="form" class="border border-slate-400 p-4 rounded-lg mt-16 text-md">
+            <form action="" method="POST" class=" w-full inline-block mx-auto font-medium px-5 py-2">
+                {% csrf_token %}
+                <div class="py-2">
+                    <label for="" class="block">Have you attended any previous event organized by TechMedBuddy?</label>
+                    <input type="text" id="" name="" required class="w-full py-1 px-3 xl:mb-3 border border-gray-300 rounded-md">
+                </div>
+                
+                <div>
+                    <label for="" class="block">What do you understand by genetic counselling ?</label>
+                    <input type="text" id="" name="" class="w-full py-1 px-3 xl:mb-3 border border-gray-300 rounded-md">
+                </div>
+
+                <div class="py-2 mb-4">
+                    <label for="" class="block">From Where did you get to know about the event?</label>
+                    <input type="text" id="" name="" required class="w-full py-1 px-3 xl:mb-3 border border-gray-300 rounded-md">
+                </div>
+                    <button type="submit" class="text-white bg-blue-950 hover:bg-cyan-600 text-center rounded-lg p-2 px-4 ">Register Now</button>
+
+            </form>
+        </div>
+
     </div>
-    <!-------------- Upcoming Events ----------------->
-    <div class="w-auto sm:w-[700px] md:w-[1000px] mx-auto p-4 text-xl font-semibold">Upcoming Events</div>
-    <div class=" mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4 w-auto h-auto sm:w-[700px] md:w-[1000px]  shadow-gray-400">
-        {% if upcoming_events %}
-            {% for event in upcoming_events %}
-            <div class="w-auto h-[400px] shadow-xl border border-slate-300 shadow-slate-500 rounded-md p-4 flex flex-col justify-between">
-                <div class="w-full h-40 rounded-sm bg-slate-300 bg-cover bg-center bg-no-repeat" style="background-image: url();">
-                </div>
-
-                <div class="text-xl font-medium py-4">{{event.event.event_name}}</div>
-                <div class="">
-                    {{event.event.event_description}}
-                </div>
-
-                <div class="flex justify-between my-4">
-                    <div class="flex flex-col justify-between">
-                        <div class="text-slate-600">Event Date</div>
-                        <div class="">{{event.event.event_datetime}}</div>
-                    </div>
-                    <div class="flex flex-col justify-between">
-                        <div class="text-slate-600 text-base">Event Fee</div>
-                        <div class="">{{event.event.event_fees}}</div>
-                    </div>
-                </div>
-
-                <a href="/all_events/{{ event.event.event_name }}">
-                    <div class="text-white bg-blue-950 hover:bg-cyan-600 text-center rounded-lg p-2">Register Now</div>
-                </a>
-            </div>
-            {%endfor%}
-        {% else %}
-            <div class="text-center text-xl font-semibold py-4">No Upcoming Events Right Now</div>
-        {% endif %}
-        
     
-    </div>
-    <!---------------------------- Past Events ---------------------->
-    <div class="w-2/3 mx-auto p-4 text-xl font-semibold">Past Events</div>
-    <div class=" mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4 w-auto h-auto sm:w-[700px] md:w-[1000px]  shadow-gray-400">
-
-        {% if past_events %}
-            {% for event in past_events %}
-            <div class="w-auto h-[400px] shadow-xl border border-slate-300 shadow-slate-500 rounded-md p-4 flex flex-col justify-between">
-                <div class="w-full h-40 rounded-sm bg-slate-300 bg-cover bg-center bg-no-repeat" style="background-image: url();">
-                </div>
-
-                <div class="text-xl font-medium py-4">{{event.event.event_name}}</div>
-                <div class="">
-                    {{event.event.event_description}}
-                </div>
-
-                <div class="flex justify-between my-4">
-                    <div class="flex flex-col justify-between">
-                        <div class="text-slate-600">Event Date</div>
-                        <div class="">{{event.event.event_datetime}}</div>
-                    </div>
-                    <div class="flex flex-col justify-between">
-                        <div class="text-slate-600 text-base">Event Fee</div>
-                        <div class="">{{event.event.event_fees}}</div>
-                    </div>
-                </div>
-
-<<<<<<< HEAD
-                <a href="upcomingEvents.html">
-=======
-                <a href="/all_events/{{ event.event.event_name }}">
->>>>>>> master
-                    <div class="text-white bg-blue-950 hover:bg-cyan-600 text-center rounded-lg p-2">Register Now</div>
-                </a>
-            </div>
-            {%endfor%}
-        {% else %}
-            <div class="text-center text-xl font-semibold py-4">No Past Events Right Now</div>
-        {% endif %}
+    
 
 </body>
 </html>

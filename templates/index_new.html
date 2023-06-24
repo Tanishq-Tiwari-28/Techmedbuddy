@@ -20,7 +20,11 @@
     <header class="flex ">
         <nav class="z-30 bg-white flex justify-between fixed w-full h-16 shadow-md p-4">
 			<ul class="flex font-semibold text-xl">
+<<<<<<< HEAD
                 <p>Welcome {{request.user.first_name}} </p>     
+=======
+                   
+>>>>>>> master
                 <li class="mr-4 hover:text-blue-800 "><a href="">About</a></li>
 				<li class="mr-4 hover:text-blue-800 "><a href="all_courses/">Courses</a></li>
                 <li class="group mr-4"><a href="" class="hover:text-blue-800 ">Teams</a>
@@ -47,7 +51,13 @@
                 {% endif %}
                 {% if user.is_authenticated %}
                     <li class="mr-4 hover:text-blue-800 "><a href="logout/">Logout</a></li>
+<<<<<<< HEAD
                 {% endif %}
+=======
+                    <p>Welcome {{request.user.first_name}}</p>  
+                {% endif %}
+                
+>>>>>>> master
 			</ul>
 		</nav>
 		<div style="margin-left: 50%;" class="z-40 fixed flex bg-white rounded-full shadow-md ml-96 ">
