@@ -155,7 +155,23 @@ def events(request):
     })
 
 
-
+def register_events(request , event_name):
+    event = Event.objects.get(event_name=event_name)
+    event_id = event.event_id
+    print(event_id)
+    if(request.method == 'POST'):
+        print("IN poST method")
+        if(request.user.is_authenticated):
+            print("student registered for event")
+            event_register = event_registration()
+            logged_user = Student.objects.get(user=request.user)
+            event_register.student_id = logged_user
+            event_register.event_id = event
+            event_register.save()
+            return HttpResponseRedirect("/all_events/")
+        else:
+            return HttpResponseRedirect('/login/')
+    return render(request, 'event_details.html' , {'event': event})
 
 def register_courses(request, course_id):
     course = Course.objects.get(course_id=course_id)

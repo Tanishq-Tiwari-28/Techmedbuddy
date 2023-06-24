@@ -112,7 +112,7 @@ class StudentOptedCourses(models.Model):
 
 
 class Event(models.Model):
-    event_id = models.AutoField(primary_key=True)
+    event_id = models.CharField(primary_key=True, max_length=255)
     event_name = models.CharField(max_length=255)
     event_banner = models.TextField(blank=True, null=True)
     speaker_image = models.TextField(blank=True, null=True)
@@ -121,6 +121,7 @@ class Event(models.Model):
     event_speaker = models.CharField(max_length=255)
     event_datetime = models.DateTimeField()
     event_duration = models.TimeField()
+    event_venue = models.TextField()
     event_mode = models.CharField(max_length=255)
     students_enrolled = models.IntegerField() 
     available_seats = models.IntegerField()
@@ -138,4 +139,4 @@ class event_registration(models.Model):
                                    null=True,  on_delete=models.CASCADE)
     class Meta:
         managed = True
-        db_table = 'event_registeration'
+        db_table = 'event_registration'
