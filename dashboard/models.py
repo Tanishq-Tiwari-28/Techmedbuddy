@@ -112,7 +112,7 @@ class StudentOptedCourses(models.Model):
 
 
 class Event(models.Model):
-    event_id = models.AutoField(primary_key=True)
+    event_id = models.CharField(primary_key=True, max_length=255)
     event_name = models.CharField(max_length=255)
     event_banner = models.TextField(blank=True, null=True)
     speaker_image = models.TextField(blank=True, null=True)
@@ -138,13 +138,4 @@ class event_registration(models.Model):
                                    null=True,  on_delete=models.CASCADE)
     class Meta:
         managed = True
-        db_table = 'event_registeration'
-
-
-class Order(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    is_paid = models.BooleanField(default=False)
-    status = models.CharField(max_length=100, default="Pending")
-    order_id = models.CharField(max_length=500)
-    instamojo_response = models.TextField(null=True, blank=True)
+        db_table = 'event_registration'
