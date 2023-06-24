@@ -2,7 +2,7 @@ from django.contrib.sessions.backends.db import SessionStore
 from django.shortcuts import render,  HttpResponseRedirect
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
-from .models import Course, Student, StudentOptedCourses, student_academics , Event , event_registration
+from .models import Course, Student, StudentOptedCourses, student_academics , Event , event_registration, Order
 from django.db.models import Q
 from django.contrib.auth.hashers import make_password, check_password
 from datetime import datetime, date, time
@@ -12,6 +12,12 @@ from django.db import connection
 from django.utils import timezone
 from datetime import timedelta , time
 
+# for Payment Gateway
+from instamojo_wrapper import Instamojo
+from django.conf import settings
+
+# for sending the Mails
+from django.core.mail import send_mail
 
 # Create your views here.
 
@@ -186,13 +192,71 @@ def register_courses(request, course_id):
     return render(request, 'course_new.html', {'course': course})
 
 
+# for payment gateway
 def verification(request, course_id):
     if(request.user.is_authenticated):
+        api = Instamojo(api_key = settings.API_KEY, auth_token = settings.AUTH_TOKEN, endpoint = "https://test.instamojo.com/api/1.1/")
+
         course = Course.objects.get(course_id=course_id)
-        return render(request, "verification.html", {'course': course})
+        order_obj, _ = Order.objects.get_or_create(
+            course = course,
+            user = request.user,
+            is_paid = False
+        )
+
+        # Create a new Payment Request
+        response = api.payment_request_create(
+            amount=course.cost,
+            purpose='Course Registration',
+            buyer_name = 'Om garg',
+            send_email=True,
+            email= request.user.email,
+            redirect_url="http://127.0.0.1:8000/order_success/"
+        )
+
+        order_obj.order_id = response['payment_request']['id']
+        order_obj.status = response['payment_request']['status']
+        order_obj.instamojo_response = response
+        order_obj.save()
+
+        return render(request, 'pay.html', {
+            'payment_url': response['payment_request']['longurl']
+        })
+    
     else:
         return HttpResponseRedirect('/login/')
 
+
+def order_success(request):
+    payment_request_id = request.GET.get('payment_request_id')
+    payment_id = request.GET.get('payment_id')
+    payment_status = request.GET.get('payment_status')
+    order_obj = Order.objects.get(order_id = payment_request_id)
+    order_obj.is_paid = True
+    order_obj.status = payment_status
+    order_obj.save()
+
+    # -------------------------- we have to verify email at begining of sign in only --> then only we can send email ------------------
+    # now email has to sended from our side also
+    logged_user = Student.objects.get(user=request.user)
+
+    name =  logged_user.fullname
+    email = logged_user.email
+    content = "This is the conformation of Payment from Techmedbuddy"
+
+    # here in content we can send the links and conformaion of payment 
+
+    # here we need to register
+
+    send_mail(
+        subject="Regarding Course Registration",
+        message=f"Hi, {name} \n" + content,
+        from_email="om21481@iiitd.ac.in",
+        recipient_list=[email],
+        fail_silently=False
+    )
+
+    return HttpResponseRedirect('/')
 
 def logout(request):
     logged_user = Student.objects.get(user=request.user)

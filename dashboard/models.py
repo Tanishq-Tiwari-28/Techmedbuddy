@@ -121,7 +121,6 @@ class Event(models.Model):
     event_speaker = models.CharField(max_length=255)
     event_datetime = models.DateTimeField()
     event_duration = models.TimeField()
-    event_venue = models.TextField()
     event_mode = models.CharField(max_length=255)
     students_enrolled = models.IntegerField() 
     available_seats = models.IntegerField()
