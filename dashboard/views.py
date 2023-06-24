@@ -9,6 +9,10 @@ from datetime import datetime, date, time
 from django.contrib.auth import login as request_login_user
 from django.contrib.auth import logout as request_logout_user
 from django.db import connection
+from django.utils import timezone
+from datetime import timedelta , time
+
+
 # Create your views here.
 
 
@@ -39,7 +43,7 @@ def signup_view(request):
             errors.append('User already exists!! Please login')
             print(errors[-1])
         else:
-            user = User(username=username, password=make_password(password))
+            user = User(username=email, password=make_password(password))
             user.email = email
             user.first_name = first_name
             user.last_name = last_name
@@ -102,13 +106,54 @@ def all_courses(request):
 def instructors(request):
     return render(request , 'instructors_new.html')
 
+ 
+
+from datetime import datetime, timedelta, time
+
+def add_times(time1, time2):
+    # Create datetime objects with the minimum date and the time values
+    datetime1 = datetime.combine(datetime.min, time1)
+    datetime2 = datetime.combine(datetime.min, time2)
+
+    # Calculate the duration between the two time values
+    duration = timedelta(hours=datetime2.hour, minutes=datetime2.minute, seconds=datetime2.second)
+
+    # Add the duration to the first datetime object
+    result_datetime = datetime1 + duration
+
+    # Extract the time component from the resulting datetime object
+    result_time = result_datetime.time()
+
+    return result_time
+
+
+
+
 
 def events(request):
     all_events = Event.objects.all()
     events = []
+    upcoming_events = []
+    live_events = []
+    past_events = []
+    current_datetime = timezone.localtime(timezone.now())  
     for event in all_events:
+        print(event.event_duration)
         events.append({'event': event})
-    return render(request , 'events.html' , {'events':events})
+        event_end_time = add_times(event.event_duration,event.event_datetime.time())
+        if event.event_datetime.date() < current_datetime.date() or event.event_datetime.time() < current_datetime.time():
+            upcoming_events.append({'event': event})
+        elif event.event_datetime.date() > current_datetime.date() or event.event_datetime.time() > current_datetime.time():
+            past_events.append({'event': event})
+        elif event.event_datetime.date() == current_datetime.date() and current_datetime.time()<event_end_time and current_datetime.time()>event.event_datetime.time():
+            live_events.append({'event': event})
+    print(upcoming_events)
+    print(live_events)
+    print(past_events)
+    print(current_datetime)
+    return render(request, 'events.html', {'events': events,'upcoming_events': upcoming_events,'live_events': live_events,'past_events': past_events
+    })
+
 
 
 

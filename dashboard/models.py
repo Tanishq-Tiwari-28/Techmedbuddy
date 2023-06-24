@@ -8,7 +8,6 @@ class Student(models.Model):
     user = models.ForeignKey(
         User, on_delete=models.CASCADE)
     enrollment_id = models.AutoField(primary_key=True)
-    password = models.CharField(max_length=20 , default="123")
     email = models.CharField(
         unique=True, max_length=255, blank=True, null=True)
     fullname = models.CharField(max_length=255)
@@ -120,14 +119,12 @@ class Event(models.Model):
     event_link = models.TextField(blank=True, null=True)
     event_description = models.CharField(max_length=255, blank=True, null=True)
     event_speaker = models.CharField(max_length=255)
-    event_date = models.DateField()
-    # event_time = models.TimeField()
-    event_duration = models.IntegerField()
-    event_mode = models.CharField(max_length=7)
+    event_datetime = models.DateTimeField()
+    event_duration = models.TimeField()
+    event_mode = models.CharField(max_length=255)
     students_enrolled = models.IntegerField() 
     available_seats = models.IntegerField()
     event_fees = models.DecimalField(max_digits=10, decimal_places=2)
-    is_past = models.BooleanField(default=False)
     class Meta:
         managed = True
         db_table = 'Event'
@@ -141,3 +138,4 @@ class event_registration(models.Model):
                                    null=True,  on_delete=models.CASCADE)
     class Meta:
         managed = True
+        db_table = 'event_registeration'

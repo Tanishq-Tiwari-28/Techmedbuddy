@@ -17,7 +17,7 @@
 				<li class="mr-4 hover:text-blue-800 "><a href="/">Home</a></li>
                 <li class="mr-4 hover:text-blue-800 "><a href="">About</a></li>
 				<li class="mr-4 hover:text-blue-800 "><a href="/all_courses">Courses</a></li>
-                <li class="group mr-4"><a href="" class="hover:text-blue-800 ">Teams</a>
+                <li class="group mr-4"><a href="#" class="hover:text-blue-800 ">Teams</a>
                     <ul class="hidden absolute flex-col group-hover:flex bg-white p-2 shadow-lg shadow-gray-400">
                         <li class="hover:text-blue-800  py-2">
                             <a href="/all_instructors">Instructors</a>
@@ -30,18 +30,19 @@
                         </li>
                     </ul>
                 </li>
+				<li class="mr-4 hover:text-blue-800 "><a href="/all_events">Events</a></li>
 			</ul>
 
             <ul class="flex font-semibold text-xl">
-                <li class="mr-4 hover:text-blue-800 "><a href="">Interns</a></li>
+				<li class="mr-4 hover:text-blue-800 "><a href="">Interns</a></li>
                 {% if not user.is_authenticated %}
-                <li class="mr-4 hover:text-blue-800 "><a href="/login">Login</a></li>
-                <li class="mr-4 hover:text-blue-800 "><a href="/signup">Sign up</a></li>
+                    <li class="mr-4 hover:text-blue-800 "><a href="/login">Login</a></li>
+                    <li class="mr-4 hover:text-blue-800 "><a href="/signup">Sign up</a></li>
                 {% endif %}
                 {% if user.is_authenticated %}
                     <li class="mr-4 hover:text-blue-800 "><a href="/logout">Logout</a></li>
                 {% endif %}
-            </ul>
+			</ul>
 		</nav>
 		<div style="margin-left: 50%;" class="z-40 fixed flex bg-white rounded-full shadow-md ml-96 ">
 			<!-- <img src="images/Course card.PNG" alt="Logo"> -->
@@ -96,169 +97,112 @@
 	</header>
 
     <div class="mt-20 w-auto sm:w-[700px] md:w-[1000px] h-[250px] mx-auto rounded p-2 my-2 bg-blue-900"></div>
-    <!-------------- Upcoming Events ----------------->
+    
+    <!----live events--->
+    <div class="w-auto sm:w-[700px] md:w-[1000px] mx-auto p-4 text-xl font-semibold">Live Events</div>
+    <div class=" mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4 w-auto h-auto sm:w-[700px] md:w-[1000px]  shadow-gray-400">
+        {% if live_events %}
+            {% for event in live_events %}
+            <div class="w-auto h-[400px] shadow-xl border border-slate-300 shadow-slate-500 rounded-md p-4 flex flex-col justify-between">
+                <div class="w-full h-40 rounded-sm bg-slate-300 bg-cover bg-center bg-no-repeat" style="background-image: url();">
+                </div>
 
+                <div class="text-xl font-medium py-4">{{event.event.event_name}}</div>
+                <div class="">
+                    {{event.event.event_description}}
+                </div>
+
+                <div class="flex justify-between my-4">
+                    <div class="flex flex-col justify-between">
+                        <div class="text-slate-600">Event Date</div>
+                        <div class="">{{event.event.event_datetime}}</div>
+                    </div>
+                    <div class="flex flex-col justify-between">
+                        <div class="text-slate-600 text-base">Event Fee</div>
+                        <div class="">{{event.event.event_fees}}</div>
+                    </div>
+                </div>
+
+                <a href="upcomingEvents.html">
+                    <div class="text-white bg-blue-950 hover:bg-cyan-600 text-center rounded-lg p-2">Register Now</div>
+                </a>
+            </div>
+            {%endfor%}
+        {% else %}
+            <div class="text-center text-xl font-semibold py-4">No Live Events Right Now</div>
+        {% endif %}
+    
+    </div>
+    <!-------------- Upcoming Events ----------------->
     <div class="w-auto sm:w-[700px] md:w-[1000px] mx-auto p-4 text-xl font-semibold">Upcoming Events</div>
     <div class=" mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4 w-auto h-auto sm:w-[700px] md:w-[1000px]  shadow-gray-400">
-
-        {% for event in events %}
-        <div class="w-auto h-[400px] shadow-xl border border-slate-300 shadow-slate-500 rounded-md p-4 flex flex-col justify-between">
-            <div class="w-full h-40 rounded-sm bg-slate-300 bg-cover bg-center bg-no-repeat" style="background-image: url();">
-            </div>
-
-            <div class="text-xl font-medium py-4">{{event.event.event_name}}</div>
-            <div class="">
-                {{event.event.event_description}}
-            </div>
-
-            <div class="flex justify-between my-4">
-                <div class="flex flex-col justify-between">
-                    <div class="text-slate-600">Event Date</div>
-                    <div class="">{{event.event.event_date}}</div>
+        {% if upcoming_events %}
+            {% for event in upcoming_events %}
+            <div class="w-auto h-[400px] shadow-xl border border-slate-300 shadow-slate-500 rounded-md p-4 flex flex-col justify-between">
+                <div class="w-full h-40 rounded-sm bg-slate-300 bg-cover bg-center bg-no-repeat" style="background-image: url();">
                 </div>
-                <div class="flex flex-col justify-between">
-                    <div class="text-slate-600 text-base">Event Fee</div>
-                    <div class="">{{event.event.event_fees}}</div>
+
+                <div class="text-xl font-medium py-4">{{event.event.event_name}}</div>
+                <div class="">
+                    {{event.event.event_description}}
                 </div>
-            </div>
 
-            <a href="upcomingEvents.html">
-                <div class="text-white bg-blue-950 hover:bg-cyan-600 text-center rounded-lg p-2">Register Now</div>
-            </a>
-        </div>
-        {% endfor %}
-    
-        <!-- <div class="w-auto h-[400px] shadow-xl border border-slate-300 shadow-slate-500 rounded-md p-4 flex flex-col justify-between">
-            <div class="w-full h-40 rounded-sm bg-cover bg-slate-300 bg-center bg-no-repeat" style="background-image: url();">
-            </div>
-
-            <div class="text-xl font-medium py-4">Event Title</div>
-            <div class="">
-                Why did the bioinformatician bring a ladder to the lab? Because they wanted to reach the top of the gene pool!
-            </div>
-
-            <div class="flex justify-between my-4">
-                <div class="flex flex-col justify-between">
-                    <div class="text-slate-600">Event Date</div>
-                    <div class="">June 16, 2023</div>
+                <div class="flex justify-between my-4">
+                    <div class="flex flex-col justify-between">
+                        <div class="text-slate-600">Event Date</div>
+                        <div class="">{{event.event.event_datetime}}</div>
+                    </div>
+                    <div class="flex flex-col justify-between">
+                        <div class="text-slate-600 text-base">Event Fee</div>
+                        <div class="">{{event.event.event_fees}}</div>
+                    </div>
                 </div>
-                <div class="flex flex-col justify-between">
-                    <div class="text-slate-600 text-base">Event Fee</div>
-                    <div class="">Free</div>
-                </div>
+
+                <a href="upcomingEvents.html">
+                    <div class="text-white bg-blue-950 hover:bg-cyan-600 text-center rounded-lg p-2">Register Now</div>
+                </a>
             </div>
-
-            <a href="upcomingEvents.html">
-                <div class="text-white bg-blue-950 hover:bg-cyan-600 text-center rounded-lg p-2">Register Now</div>
-            </a>
-        </div>
-
-        <div class="w-auto h-[400px] shadow-xl border border-slate-300 shadow-slate-500 rounded-md p-4 flex flex-col justify-between">
-            <div class="w-full h-40 rounded-sm bg-slate-300 bg-cover bg-center bg-no-repeat" style="background-image: url();">
-            </div>
-
-            <div class="text-xl font-medium py-4">Event Title</div>
-            <div class="">
-                Why did the bioinformatician always carry a map? Because they didn't want to get lost in the sequence of genes!
-            </div>
-
-            <div class="flex justify-between my-4">
-                <div class="flex flex-col justify-between">
-                    <div class="text-slate-600">Event Date</div>
-                    <div class="">June 16, 2023</div>
-                </div>
-                <div class="flex flex-col justify-between">
-                    <div class="text-slate-600 text-base">Event Fee</div>
-                    <div class="">Free</div>
-                </div>
-            </div>
-
-            <a href="upcomingEvents.html">
-                <div class="text-white bg-blue-950 hover:bg-cyan-600 text-center rounded-lg p-2">Register Now</div>
-            </a>
-        </div> -->
+            {%endfor%}
+        {% else %}
+            <div class="text-center text-xl font-semibold py-4">No Upcoming Events Right Now</div>
+        {% endif %}
+        
     
     </div>
     <!---------------------------- Past Events ---------------------->
     <div class="w-2/3 mx-auto p-4 text-xl font-semibold">Past Events</div>
     <div class=" mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4 w-auto h-auto sm:w-[700px] md:w-[1000px]  shadow-gray-400">
 
-        <div class="w-auto h-[400px] shadow-xl border border-slate-300 shadow-slate-500 rounded-md p-4 flex flex-col justify-between">
-            <div class="w-full h-40 rounded-sm bg-slate-300 bg-cover bg-center bg-no-repeat" style="background-image: url();">
-            </div>
-
-            <div class="text-xl font-medium py-4">Event Title</div>
-            <div class="">
-                Why did the bioinformatician always carry a map? Because they didn't want to get lost in the sequence of genes!
-            </div>
-
-            <div class="flex justify-between my-4">
-                <div class="flex flex-col justify-between">
-                    <div class="text-slate-600">Event Date</div>
-                    <div class="">June 16, 2023</div>
+        {% if past_events %}
+            {% for event in past_events %}
+            <div class="w-auto h-[400px] shadow-xl border border-slate-300 shadow-slate-500 rounded-md p-4 flex flex-col justify-between">
+                <div class="w-full h-40 rounded-sm bg-slate-300 bg-cover bg-center bg-no-repeat" style="background-image: url();">
                 </div>
-                <div class="flex flex-col justify-between">
-                    <div class="text-slate-600 text-base">Event Fee</div>
-                    <div class="">Free</div>
+
+                <div class="text-xl font-medium py-4">{{event.event.event_name}}</div>
+                <div class="">
+                    {{event.event.event_description}}
                 </div>
-            </div>
 
-            <a href="pastEvents.html">
-                <div class="text-white bg-blue-950 hover:bg-cyan-600 text-center rounded-lg p-2">View Details</div>
-            </a>
-        </div>
-    
-        <div class="w-auto h-[400px] shadow-xl border border-slate-300 shadow-slate-500 rounded-md p-4 flex flex-col justify-between">
-            <div class="w-full h-40 rounded-sm bg-cover bg-slate-300 bg-center bg-no-repeat" style="background-image: url();">
-            </div>
-
-            <div class="text-xl font-medium py-4">Event Title</div>
-            <div class="">
-                Why did the bioinformatician bring a ladder to the lab? Because they wanted to reach the top of the gene pool!
-            </div>
-
-            <div class="flex justify-between my-4">
-                <div class="flex flex-col justify-between">
-                    <div class="text-slate-600">Event Date</div>
-                    <div class="">June 16, 2023</div>
+                <div class="flex justify-between my-4">
+                    <div class="flex flex-col justify-between">
+                        <div class="text-slate-600">Event Date</div>
+                        <div class="">{{event.event.event_datetime}}</div>
+                    </div>
+                    <div class="flex flex-col justify-between">
+                        <div class="text-slate-600 text-base">Event Fee</div>
+                        <div class="">{{event.event.event_fees}}</div>
+                    </div>
                 </div>
-                <div class="flex flex-col justify-between">
-                    <div class="text-slate-600 text-base">Event Fee</div>
-                    <div class="">Free</div>
-                </div>
+
+                <a href="upcomingEvents.html">
+                    <div class="text-white bg-blue-950 hover:bg-cyan-600 text-center rounded-lg p-2">Register Now</div>
+                </a>
             </div>
-
-            <a href="pastEvents.html">
-                <div class="text-white bg-blue-950 hover:bg-cyan-600 text-center rounded-lg p-2">View Details</div>
-            </a>
-        </div>
-
-        <div class="w-auto h-[400px] shadow-xl border border-slate-300 shadow-slate-500 rounded-md p-4 flex flex-col justify-between">
-            <div class="w-full h-40 rounded-sm bg-slate-300 bg-cover bg-center bg-no-repeat" style="background-image: url();">
-            </div>
-
-            <div class="text-xl font-medium py-4">Event Title</div>
-            <div class="">
-                Why did the bioinformatician always carry a map? Because they didn't want to get lost in the sequence of genes!
-            </div>
-
-            <div class="flex justify-between my-4">
-                <div class="flex flex-col justify-between">
-                    <div class="text-slate-600">Event Date</div>
-                    <div class="">June 16, 2023</div>
-                </div>
-                <div class="flex flex-col justify-between">
-                    <div class="text-slate-600 text-base">Event Fee</div>
-                    <div class="">Free</div>
-                </div>
-            </div>
-
-            <a href="pastEvents.html">
-                <div class="text-white bg-blue-950 hover:bg-cyan-600 text-center rounded-lg p-2">View Details</div>
-            </a>
-        </div>
-    
-    </div>
+            {%endfor%}
+        {% else %}
+            <div class="text-center text-xl font-semibold py-4">No Past Events Right Now</div>
+        {% endif %}
 
 </body>
 </html>
