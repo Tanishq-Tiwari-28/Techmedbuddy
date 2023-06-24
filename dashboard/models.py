@@ -121,6 +121,7 @@ class Event(models.Model):
     event_speaker = models.CharField(max_length=255)
     event_datetime = models.DateTimeField()
     event_duration = models.TimeField()
+    event_venue = models.TextField()
     event_mode = models.CharField(max_length=255)
     students_enrolled = models.IntegerField() 
     available_seats = models.IntegerField()
@@ -138,4 +139,13 @@ class event_registration(models.Model):
                                    null=True,  on_delete=models.CASCADE)
     class Meta:
         managed = True
-        db_table = 'event_registration'
+        db_table = 'event_registeration'
+
+
+class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    is_paid = models.BooleanField(default=False)
+    status = models.CharField(max_length=100, default="Pending")
+    order_id = models.CharField(max_length=500)
+    instamojo_response = models.TextField(null=True, blank=True)
