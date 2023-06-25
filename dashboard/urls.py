@@ -12,10 +12,12 @@ urlpatterns = [
     path('logout/', logout),
     path('all_courses/', all_courses),
     path('all_instructors/', instructors),
+    path('techteam/' , techteam),
+    path('all_events/<path:event_name>/' , register_events),
     path('all_events/' , events),
-    path('all_events/<slug:event_name>/' , register_events),
-    path('all_courses/<int:course_id>/', register_courses),
-    path('all_courses/<int:course_id>/verification/', verification),
+    path('all_courses/<path:course_name>/verification/', verification),
+    path('all_courses/<path:course_name>/', register_courses),
+    path('order_success/<int:course_id>/', order_success),
     # path('test/', test),
 ]
 

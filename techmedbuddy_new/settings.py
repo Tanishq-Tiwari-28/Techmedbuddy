@@ -115,7 +115,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
+
 
 USE_I18N = True
 
@@ -139,3 +140,29 @@ STATICFILES_DIRS = [
 NPM_BIN_PATH = "C:/Program Files/nodejs/npm.cmd"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# for Payment Gateway
+API_KEY = "test_edfa549d11818a34bb3b532368b"
+AUTH_TOKEN = "test_c71b34c77cc67134c308687aa65"
+SALT = "a30f1ca3293a42739603d4191330a774"
+
+# For email
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = '587'
+EMAIL_HOST_USER = 'om21481@iiitd.ac.in'
+EMAIL_HOST_PASSWORD = "elntggoslkodvodb"
+EMAIL_USE_TLS = True
+
+
+# EMAIL_USE_TLS and EMAIL_USE_SSL are mutually exclusive You should choose which secure connection to use, depending on you email provider.
+
+# In Django EMAIL_USE_TLS uses port 587 by default, where and EMAIL_USE_SSL uses port 465 instead
+
+# So, correct setting must be
+
+# EMAIL_USE_SSL = False
+# EMAIL_USE_TLS = True
+# or
+
+# EMAIL_USE_SSL = True
+# EMAIL_USE_TLS = False

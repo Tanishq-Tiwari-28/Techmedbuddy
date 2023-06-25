@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="main.css">
+    <!-- <link rel="stylesheet" href="main.css"> -->
     <title>TechMedBuddy</title>
 </head>
 <body class="bg-slate-100">
@@ -102,11 +102,11 @@
         <div class="flex justify-around p-2">
             <div class="flex flex-col justify-around">
                 <div class="text-slate-600">Date</div>
-                <div class="">{{event.event_datetime|date}}</div>
+                <div class="">{{event.event_startdatetime|date}}</div>
             </div>
             <div class="flex flex-col justify-around">
                 <div class="text-slate-600">Timings</div>
-                <div class="">{{event.event_datetime|time}}</div>
+                <div class="">{{event.event_startdatetime|time}}</div>
             </div>
             <div class="flex flex-col justify-around">
                 <div class="text-slate-600">Duration</div>
@@ -132,39 +132,86 @@
                     
                 <div class="w-3/4 flex flex-col justify-center">
                     <p class="p-4 text-md">
-                        Why did the bioinformatician always carry a map? Because they didn't want to get lost in the sequence of genes! Why did the bioinformatician always carry a map? Because they didn't want to get lost in the sequence of genes!
+                        {{event.speaker_description}}
                     </p>
                 </div>
                 
                 <div class="w-1/4 flex flex-col justify-around">
                     <div class="w-60 h-60 lg:w-40 lg:h-40 bg-slate-300 mx-auto rounded-xl  bg-cover bg-no-repeat " style="background-image: url();"></div>
-                    <div class="text-center text-black font-semibold p-2">Speaker Name</div>
+                    <div class="text-center text-black font-semibold p-2">{{event.event_speaker}}</div>
                 </div>
 
             </div>
         </div>
+        {% if event.event_status == 'Upcoming' %}
+            {% if num == 0%}
+            <div id="form" class="border border-slate-400 p-4 rounded-lg mt-16 text-md">
+                <form action="" method="POST" class="w-full inline-block mx-auto font-medium px-5 py-2">
+                    {% csrf_token %}
+                    <div class="py-2">
+                        <label for="">Have you attended any previous event organized by TechMedBuddy?</label>
+                        <input type="text" id="" name="" required class="w-full py-1 px-3 xl:mb-3 border border-gray-300 rounded-md">
+                    </div>
+                    
+                    <div>
+                        <label for="">What do you understand by genetic counselling?</label>
+                        <input type="text" id="" name="" class="w-full py-1 px-3 xl:mb-3 border border-gray-300 rounded-md">
+                    </div>
 
-        <div id="form" class="border border-slate-400 p-4 rounded-lg mt-16 text-md">
-            <form action="" method="POST" class=" w-full inline-block mx-auto font-medium px-5 py-2">
-                {% csrf_token %}
-                <div class="py-2">
-                    <label for="" class="block">Have you attended any previous event organized by TechMedBuddy?</label>
-                    <input type="text" id="" name="" required class="w-full py-1 px-3 xl:mb-3 border border-gray-300 rounded-md">
-                </div>
-                
-                <div>
-                    <label for="" class="block">What do you understand by genetic counselling ?</label>
-                    <input type="text" id="" name="" class="w-full py-1 px-3 xl:mb-3 border border-gray-300 rounded-md">
-                </div>
+                    <div class="py-2 mb-4">
+                        <label for="">From where did you get to know about the event?</label>
+                        <input type="text" id="" name="" required class="w-full py-1 px-3 xl:mb-3 border border-gray-300 rounded-md">
+                    </div>
 
-                <div class="py-2 mb-4">
-                    <label for="" class="block">From Where did you get to know about the event?</label>
-                    <input type="text" id="" name="" required class="w-full py-1 px-3 xl:mb-3 border border-gray-300 rounded-md">
-                </div>
-                    <button type="submit" class="text-white bg-blue-950 hover:bg-cyan-600 text-center rounded-lg p-2 px-4 ">Register Now</button>
+                    <button type="submit" class="text-white bg-blue-950 hover:bg-cyan-600 text-center rounded-lg p-2 px-4">Register Now</button>
+                </form>
+            </div>
+            {% endif %}
+        {% elif event.event_status == 'Live' %}
+            {% if num == 0%}
+            <div id="form" class="border border-slate-400 p-4 rounded-lg mt-16 text-md">
+                <form action="" method="POST" class="w-full inline-block mx-auto font-medium px-5 py-2">
+                    {% csrf_token %}
+                    <div class="py-2">
+                        <label for="">Have you attended any previous event organized by TechMedBuddy?</label>
+                        <input type="text" id="" name="" required class="w-full py-1 px-3 xl:mb-3 border border-gray-300 rounded-md">
+                    </div>
+                    
+                    <div>
+                        <label for="">What do you understand by genetic counselling?</label>
+                        <input type="text" id="" name="" class="w-full py-1 px-3 xl:mb-3 border border-gray-300 rounded-md">
+                    </div>
 
-            </form>
-        </div>
+                    <div class="py-2 mb-4">
+                        <label for="">From where did you get to know about the event?</label>
+                        <input type="text" id="" name="" required class="w-full py-1 px-3 xl:mb-3 border border-gray-300 rounded-md">
+                    </div>
+
+                    <button type="submit" class="text-white bg-blue-950 hover:bg-cyan-600 text-center rounded-lg p-2 px-4">Register Now</button>
+                </form>
+            </div>
+            {% endif %}
+        {% elif event.event_status == 'Past' %}
+            {% if num == 0%}
+                <div id="form" class="border border-slate-400 p-4 rounded-lg mt-16 text-md">
+                    <form action="" method="POST" class="w-full inline-block mx-auto font-medium px-5 py-2">
+                        {% csrf_token %}
+                        <div class="pb-1">
+                            <label for="">Your Feedback</label>
+                            <input type="text" id="" name="" required class="w-full py-1 px-3 xl:mb-3 border border-gray-300 rounded-md">
+                        </div>
+                        
+                        <div>
+                            <label for="">Suggest any topic for future talks</label>
+                            <input type="text" id="" name="" class="w-full py-1 px-3 xl:mb-3 border border-gray-300 rounded-md">
+                        </div>
+                        
+                        <button type="submit" class="text-white bg-blue-950 hover:bg-cyan-600 text-center rounded-lg p-2 px-4">Submit</button>
+                    </form>
+                </div>
+            {% endif %}
+        {% endif %}
+
 
     </div>
     

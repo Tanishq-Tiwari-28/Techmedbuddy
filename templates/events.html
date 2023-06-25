@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="main.css">
+    <!-- <link rel="stylesheet" href="main.css"> -->
     <title>TechMedBuddy</title>
 </head>
 <body class="">
@@ -115,7 +115,7 @@
                 <div class="flex justify-between my-4">
                     <div class="flex flex-col justify-between">
                         <div class="text-slate-600">Event Date</div>
-                        <div class="">{{event.event.event_datetime}}</div>
+                        <div class="">{{event.event.event_startdatetime}}</div>
                     </div>
                     <div class="flex flex-col justify-between">
                         <div class="text-slate-600 text-base">Event Fee</div>
@@ -123,9 +123,15 @@
                     </div>
                 </div>
 
-                <a href="/all_events/{{ event.event.event_name }}">
-                    <div class="text-white bg-blue-950 hover:bg-cyan-600 text-center rounded-lg p-2">Register Now</div>
-                </a>
+                {%if num == 0 %}
+                    <a href="/all_events/{{ event.event.event_name }}">
+                        <div class="text-white bg-blue-950 hover:bg-cyan-600 text-center rounded-lg p-2">Register Now</div>
+                    </a>
+                {%else%}
+                    <a href="/all_events/{{ event.event.event_name }}">
+                        <div class="text-white bg-blue-950 hover:bg-cyan-600 text-center rounded-lg p-2">Already Registered</div>
+                    </a>
+                {%endif%}
             </div>
             {%endfor%}
         {% else %}
@@ -150,17 +156,23 @@
                 <div class="flex justify-between my-4">
                     <div class="flex flex-col justify-between">
                         <div class="text-slate-600">Event Date</div>
-                        <div class="">{{event.event.event_datetime}}</div>
+                        <div class="">{{event.event.event_startdatetime}}</div>
                     </div>
                     <div class="flex flex-col justify-between">
                         <div class="text-slate-600 text-base">Event Fee</div>
                         <div class="">{{event.event.event_fees}}</div>
                     </div>
                 </div>
+                {% if num == 0 %}
+                    <a href="/all_events/{{ event.event.event_name }}">
+                        <div class="text-white bg-blue-950 hover:bg-cyan-600 text-center rounded-lg p-2">Register Now</div>
+                    </a>
+                {% else %}
+                    <a href="/all_events/{{ event.event.event_name }}">
+                        <div class="text-white bg-blue-950 hover:bg-cyan-600 text-center rounded-lg p-2">Already Registered</div>
+                    </a>
+                {% endif %}
 
-                <a href="/all_events/{{ event.event.event_name }}">
-                    <div class="text-white bg-blue-950 hover:bg-cyan-600 text-center rounded-lg p-2">Register Now</div>
-                </a>
             </div>
             {%endfor%}
         {% else %}
@@ -187,20 +199,16 @@
                 <div class="flex justify-between my-4">
                     <div class="flex flex-col justify-between">
                         <div class="text-slate-600">Event Date</div>
-                        <div class="">{{event.event.event_datetime}}</div>
+                        <div class="">{{event.event.event_startdatetime}}</div>
                     </div>
                     <div class="flex flex-col justify-between">
                         <div class="text-slate-600 text-base">Event Fee</div>
                         <div class="">{{event.event.event_fees}}</div>
                     </div>
                 </div>
-
-<<<<<<< HEAD
-                <a href="upcomingEvents.html">
-=======
+                
                 <a href="/all_events/{{ event.event.event_name }}">
->>>>>>> master
-                    <div class="text-white bg-blue-950 hover:bg-cyan-600 text-center rounded-lg p-2">Register Now</div>
+                    <div class="text-white bg-blue-950 hover:bg-cyan-600 text-center rounded-lg p-2">Event Summary</div>
                 </a>
             </div>
             {%endfor%}

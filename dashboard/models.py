@@ -119,13 +119,21 @@ class Event(models.Model):
     event_link = models.TextField(blank=True, null=True)
     event_description = models.CharField(max_length=255, blank=True, null=True)
     event_speaker = models.CharField(max_length=255)
-    event_datetime = models.DateTimeField()
-    event_duration = models.TimeField()
+    speaker_description = models.CharField(max_length=255)
+    event_startdatetime = models.DateTimeField()
+    event_enddatetime = models.DateTimeField()
+    event_duration = models.TextField()
     event_venue = models.TextField()
     event_mode = models.CharField(max_length=255)
     students_enrolled = models.IntegerField() 
     available_seats = models.IntegerField()
     event_fees = models.DecimalField(max_digits=10, decimal_places=2)
+    EVENT_STATUS_CHOICES = [
+        ('Past', 'Past'),
+        ('Live', 'Live'),
+        ('Upcoming', 'Upcoming'),
+    ]
+    event_status = models.CharField(max_length=255, choices=EVENT_STATUS_CHOICES , null=True , blank=True)
     class Meta:
         managed = True
         db_table = 'Event'
@@ -140,6 +148,7 @@ class event_registration(models.Model):
     class Meta:
         managed = True
         db_table = 'event_registeration'
+        unique_together = ('event_id', 'student_id')
 
 
 class Order(models.Model):

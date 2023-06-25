@@ -2,7 +2,7 @@ from django.contrib.sessions.backends.db import SessionStore
 from django.shortcuts import render,  HttpResponseRedirect
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
-from .models import Course, Student, StudentOptedCourses, student_academics , Event , event_registration, Order
+from .models import Course, Student, StudentOptedCourses, student_academics , Event , event_registration, Order , Instructor
 from django.db.models import Q
 from django.contrib.auth.hashers import make_password, check_password
 from datetime import datetime, date, time
@@ -11,7 +11,8 @@ from django.contrib.auth import logout as request_logout_user
 from django.db import connection
 from django.utils import timezone
 from datetime import timedelta , time
-
+from urllib.parse import unquote
+from datetime import datetime, timedelta, time
 # for Payment Gateway
 from instamojo_wrapper import Instamojo
 from django.conf import settings
@@ -107,14 +108,101 @@ def all_courses(request):
         print(instructors)
     return render(request, "courses_new.html", {'courses': courses})
 
+def register_courses(request, course_name):
+    print(course_name)
+    course = Course.objects.get(course_name = course_name)
+    course_content = course.course_content
+    course_content = course_content.split(", ")
+    prerequisites = course.prerequisites
+    prerequisites = prerequisites.split(",")
+    learning_outcomes = course.learning_outcomes
+    learning_outcomes = learning_outcomes.split(",")
+    print(learning_outcomes)
+    return render(request, 'course_new.html', {'course': course , 'course_content' : course_content , 'prerequisites':prerequisites, 'learning_outcomes' : learning_outcomes})
 
+# for payment gateway
+def verification(request, course_name):
+    print(course_name, "dfgdsfgsd")
+    logged_user = Student.objects.get(user=request.user)
+    if(request.user.is_authenticated):
+        api = Instamojo(api_key = settings.API_KEY, auth_token = settings.AUTH_TOKEN, endpoint = "https://test.instamojo.com/api/1.1/")
+        course = Course.objects.get(course_name=course_name)
+        order_obj, _ = Order.objects.get_or_create(
+            course = course,
+            user = request.user,
+            is_paid = False
+        )
+        url = f"http://127.0.0.1:8000/order_success/{course.course_id}/"
+        print("dugldugdsugsldfugsldhugf" , url)
+        # Create a new Payment Request
+        response = api.payment_request_create(
+            amount=course.cost,
+            purpose='Course Registration',
+            buyer_name = logged_user.fullname,
+            send_email=True,
+            email= request.user.email,
+            redirect_url=url
+        )
+
+        order_obj.order_id = response['payment_request']['id']
+        order_obj.status = response['payment_request']['status']
+        order_obj.instamojo_response = response
+        order_obj.save()
+
+        return render(request, 'pay.html', {
+            'payment_url': response['payment_request']['longurl']
+        })
+        return HttpResponseRedirect("/")
+    
+    else:
+        return render(request  , 'login.html')
+    
+def order_success(request , course_id):
+    payment_request_id = request.GET.get('payment_request_id')
+    payment_id = request.GET.get('payment_id')
+    payment_status = request.GET.get('payment_status')
+    order_obj = Order.objects.get(order_id = payment_request_id)
+    order_obj.is_paid = True
+    order_obj.status = payment_status
+    order_obj.save()
+    # -------------------------- we have to verify email at begining of sign in only --> then only we can send email ------------------
+    # now email has to sended from our side also
+    logged_user = Student.objects.get(user=request.user)
+
+    name =  logged_user.fullname
+    email = logged_user.email
+    content = "This is the conformation of Payment from Techmedbuddy"
+
+    # here in content we can send the links and conformaion of payment 
+
+    # here we need to register
+    course = Course.objects.get(course_id = course_id)
+    student_opted_course = StudentOptedCourses()
+    logged_user = Student.objects.get(user=request.user)
+    student_opted_course.student_id = logged_user
+    student_opted_course.course_id = course
+    student_opted_course.save()
+    send_mail(
+        subject="Regarding Course Registration",
+        message=f"Hi, {name} \n" + content,
+        from_email="om21481@iiitd.ac.in",
+        recipient_list=[email],
+        fail_silently=False
+    )
+
+    return HttpResponseRedirect('/')    
 
 def instructors(request):
-    return render(request , 'instructors_new.html')
+    all_instructors = Instructor.objects.all()
+    instructors = []
+    for instructor in all_instructors:
+        instructors.append({'instructor': instructor})
+        print(instructors)
+    return render(request , 'instructors_new.html' ,  {'instructors':instructors})
 
- 
+def techteam(request):
+    return render(request , 'techteam.html')
 
-from datetime import datetime, timedelta, time
 
 def add_times(time1, time2):
     # Create datetime objects with the minimum date and the time values
@@ -134,7 +222,22 @@ def add_times(time1, time2):
 
 
 
+def check_registration(request , event_id):
+    event = Event.objects.get(event_id=event_id)
+    logged_user = Student.objects.get(user=request.user)
+    if(request.user.is_authenticated):
+        num = 0
+        is_registered_event = event_registration.objects.filter(event_id=event, student_id=logged_user)
+        if is_registered_event:
+            num = 1
+            return num
+        return num
+    else:
+        return HttpResponseRedirect('/login/')
 
+
+
+import pytz
 
 def events(request):
     all_events = Event.objects.all()
@@ -142,28 +245,54 @@ def events(request):
     upcoming_events = []
     live_events = []
     past_events = []
-    current_datetime = timezone.localtime(timezone.now())  
+    current_datetime = timezone.localtime(timezone.now())
     for event in all_events:
-        print(event.event_duration)
+        num = check_registration(request , event.event_id)
+        print("num" , num)
+        currenttime = current_datetime.time()
+        currentdate = current_datetime.date()
+        event_startdatetime = event.event_startdatetime.astimezone(pytz.timezone('Asia/Kolkata'))
+        event_enddatetime = event.event_enddatetime.astimezone(pytz.timezone('Asia/Kolkata'))
+        # Retrieve the time and date values
+        starttime = event_startdatetime.time()
+        endtime = event_enddatetime.time()
+        startdate = event_startdatetime.date()
+        enddate = event_enddatetime.date()
         events.append({'event': event})
-        event_end_time = add_times(event.event_duration,event.event_datetime.time())
-        if event.event_datetime.date() < current_datetime.date() or event.event_datetime.time() < current_datetime.time():
+        if (startdate > currentdate) or (startdate == currentdate and currenttime < starttime):
             upcoming_events.append({'event': event})
-        elif event.event_datetime.date() > current_datetime.date() or event.event_datetime.time() > current_datetime.time():
+            event.event_status = "Upcoming"
+            event.save()
+        elif (startdate < currentdate) or  (startdate == currentdate and currenttime > endtime):
             past_events.append({'event': event})
-        elif event.event_datetime.date() == current_datetime.date() and current_datetime.time()<event_end_time and current_datetime.time()>event.event_datetime.time():
+            event.event_status = "Past"
+            event.save()
+        elif (startdate == currentdate) and (currenttime <= endtime) and (currenttime >= starttime):
             live_events.append({'event': event})
+            event.event_status = "Live"
+            event.save()
+        print(event.event_duration)
+        print(starttime)
+        print(startdate)
+        print(endtime)
+        print(enddate)
+        print(currenttime)
+        print("\n")
     print(upcoming_events)
     print(live_events)
     print(past_events)
-    print(current_datetime)
-    return render(request, 'events.html', {'events': events,'upcoming_events': upcoming_events,'live_events': live_events,'past_events': past_events
+    return render(request, 'events.html', {'events': events,'upcoming_events': upcoming_events,'live_events': live_events,'past_events': past_events , 'num':num
     })
+
+
+
 
 
 def register_events(request , event_name):
     event = Event.objects.get(event_name=event_name)
     event_id = event.event_id
+    num = check_registration(request , event.event_id)
+    print("num2" , num)
     print(event_id)
     if(request.method == 'POST'):
         print("IN poST method")
@@ -177,86 +306,8 @@ def register_events(request , event_name):
             return HttpResponseRedirect("/all_events/")
         else:
             return HttpResponseRedirect('/login/')
-    return render(request, 'event_details.html' , {'event': event})
+    return render(request, 'event_details.html' , {'event': event , 'num':num})
 
-def register_courses(request, course_id):
-    course = Course.objects.get(course_id=course_id)
-    if(request.method == 'POST'):
-        #     print("register course")
-        #     student_opted_course = StudentOptedCourses()
-        #     logged_user = Student.objects.get(user=request.user)
-        #     student_opted_course.student_id = logged_user
-        #     student_opted_course.course_id = course_id
-        #     student_opted_course.save()
-        return HttpResponseRedirect("/payment/")
-    return render(request, 'course_new.html', {'course': course})
-
-
-# for payment gateway
-def verification(request, course_id):
-    if(request.user.is_authenticated):
-        api = Instamojo(api_key = settings.API_KEY, auth_token = settings.AUTH_TOKEN, endpoint = "https://test.instamojo.com/api/1.1/")
-
-        course = Course.objects.get(course_id=course_id)
-        order_obj, _ = Order.objects.get_or_create(
-            course = course,
-            user = request.user,
-            is_paid = False
-        )
-
-        # Create a new Payment Request
-        response = api.payment_request_create(
-            amount=course.cost,
-            purpose='Course Registration',
-            buyer_name = 'Om garg',
-            send_email=True,
-            email= request.user.email,
-            redirect_url="http://127.0.0.1:8000/order_success/"
-        )
-
-        order_obj.order_id = response['payment_request']['id']
-        order_obj.status = response['payment_request']['status']
-        order_obj.instamojo_response = response
-        order_obj.save()
-
-        return render(request, 'pay.html', {
-            'payment_url': response['payment_request']['longurl']
-        })
-    
-    else:
-        return HttpResponseRedirect('/login/')
-
-
-def order_success(request):
-    payment_request_id = request.GET.get('payment_request_id')
-    payment_id = request.GET.get('payment_id')
-    payment_status = request.GET.get('payment_status')
-    order_obj = Order.objects.get(order_id = payment_request_id)
-    order_obj.is_paid = True
-    order_obj.status = payment_status
-    order_obj.save()
-
-    # -------------------------- we have to verify email at begining of sign in only --> then only we can send email ------------------
-    # now email has to sended from our side also
-    logged_user = Student.objects.get(user=request.user)
-
-    name =  logged_user.fullname
-    email = logged_user.email
-    content = "This is the conformation of Payment from Techmedbuddy"
-
-    # here in content we can send the links and conformaion of payment 
-
-    # here we need to register
-
-    send_mail(
-        subject="Regarding Course Registration",
-        message=f"Hi, {name} \n" + content,
-        from_email="om21481@iiitd.ac.in",
-        recipient_list=[email],
-        fail_silently=False
-    )
-
-    return HttpResponseRedirect('/')
 
 def logout(request):
     logged_user = Student.objects.get(user=request.user)

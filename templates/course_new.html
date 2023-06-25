@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://cdn.tailwindcss.com"></script>
-        <link rel="stylesheet" href="main.css">
+        <!-- <link rel="stylesheet" href="main.css"> -->
         <title>TechMedBuddy</title>
     </head>
     <body class="">
@@ -118,7 +118,7 @@
         <div class="p-4 text-white w-full h-1/2 flex justify-end z-10">
             <div class="-mt-72 w-1/3 h-auto shadow-lg shadow-slate-500 bg-white p-4 flex flex-col justify-between rounded-md mr-6">
                 <div class="w-auto h-[200px] md:h-[250px] lg:h-[300px] rounded-md bg-center bg-contain bg-no-repeat" style="background-image: url(/images/r.jpg);"></div>
-                <a href="verification/">
+                <a href="/all_courses/{{course.course_name}}/verification/">
                     <div class="bg-blue-900 p-2 rounded-lg text-center font-semibold text-2xl mt-3 hover:bg-cyan-600">Start Learning</div>
                 </a>
             </div>
@@ -134,13 +134,11 @@
                 </div>
                 <div class="p-4 m-6 ml-10 rounded-2xl bg-cyan-50 text-xl">
                     <h1 class="text-3xl font-medium my-3 mb-4">Course content</h1>
-                    <div class="my-2">Module 1:  {{course.course_content}}</div>
-                    <div class="my-2">Module 2:  {{course.course_content}}</div>
-                    <div class="my-2">Module 3:  {{course.course_content}}</div>
-                    <div class="my-2">Module 4:  {{course.course_content}}</div>
-                    <div class="my-2">Module 5:  {{course.course_content}}</div>
-                    <div class="my-2">Module 6:  {{course.course_content}}</div>
-                    <div class="my-2">Module 7:  {{course.course_content}}</div>
+                    {% for item in course_content %}
+                        <div class="my-2">Module {{ forloop.counter }}: {{ item }}</div>
+                    {% endfor %}
+
+
                 </div>
             </div>
             <div class="pre-requisite-section w-1/3 flex flex-col justify-start">
@@ -148,16 +146,19 @@
                     <div class="pre-requisite ml-4 p-4">
                         <h1 class="text-2xl font-medium">Pre - requisite:</h1>
                         <div class="ml-6 p-2 m-2 text-lg font-light">
-                            <li>Willingness to learn</li> 
-                            <li>Basics of Biology</li>
+                            {% for item in prerequisites %}
+                                <li>{{item}}</li> 
+                            {% endfor %}
+
                         </div>
                     </div>
                     <div class="learning-outcome ml-4 p-4">
                         <h1 class="font-medium text-2xl">Learning Outcome:</h1>
                         <div class="ml-6 p-2 m-2 text-lg font-light">
-                            <li>First</li>
-                            <li>Second</li>
-                            <li>Third</li>
+                            {% for item in learning_outcomes %}
+                                <li>{{item}}</li> 
+                            {% endfor %}
+                            
                         </div>
                     </div>
                 </div>
@@ -168,19 +169,18 @@
         {% for instructor in course.instructor_id.all %}
         <div class="bg-blue-950 p-5">
             <div class="flex flex-col w-[80%] mx-auto shadow-2xl bg-white rounded-lg">
-                <h1 class="font-bold text-3xl p-4">Know your Instructors</h1>
+                <h1 class="font-bold text-3xl p-4">Know About {{instructor.instructor_name}} </h1>
                 <div class="w-full p-4 flex justify-around">
                     
                     <div class="w-3/4 flex flex-col justify-center">
                         <p class="p-4 text-base leading-7">
-                            With strong foundational skills in biostatistics, Machine Learning and Deep Learning, I am working with a multi-omics approach to Cancer Biology. With more than 6+ years of teaching experience, I am passionate about interacting with youths and guiding and teaching them from course curriculum to real life issues.
-    
+                            {{instructor.instructor_description}} 
                         </p>
                     </div>
                     
                     <div class="w-1/4 flex flex-col justify-around">
                         <div class="w-60 h-60 lg:w-40 lg:h-40 bg-slate-300 mx-auto rounded-xl  bg-cover bg-no-repeat " style="background-image: url();"></div>
-                        <div class="text-center text-black font-semibold">Alok Anand </div>
+                        <div class="text-center text-black font-semibold">{{instructor.instructor_name}}</div>
                         <div class="text-center text-black">{{instructor.instructor_qualification}} </div>
                     </div>
                 </div>
