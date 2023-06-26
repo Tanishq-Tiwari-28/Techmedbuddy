@@ -1,3 +1,4 @@
+{% load static%}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="main.css">
+    <!-- <link rel="stylesheet" href="main.css"> -->
     <title>TechMedBuddy</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -113,7 +114,7 @@
         </ol>
         <div class="carousel-inner h-[400px] w-full">
           <div class="carousel-item active">
-            <div class="bg-slate-400 h-[400px] bg-no-repeat bg-cover bg-center" style="background-image: url();"></div>
+            <div class="bg-slate-400 h-[400px] bg-no-repeat bg-cover bg-center" style="background-image: url({% static 'images/techMedBuddy_banner.jpg' %});"></div>
           </div>
           <div class="carousel-item">
             <div id="banner" class=" px-4 flex w-full h-[400px] ">
@@ -125,7 +126,7 @@
                     <h2 class="xl:text-5xl lg:text-3xl font-bold text-blue-800">TechMedBuddy</h2>
                     <p class="text-cyan-500 xl:p-4 lg:p-4">Change is the only constant</p>
                     <p class="xl:p-4 lg:pr-16 xl:text-lg lg:text-base">We specialise in bridging the gap between core biology and computational biology, as well as computer science and healthcare. Our courses and programs are designed to help you fulfils your potential in these exciting fields.</p>
-                    <a href="courses.html" target="_blank" rel="noopener noreferrer">
+                    <a href="/all_courses" rel="noopener noreferrer">
                         <div class=" w-fit p-4 ml-8 xl:text-lg lg:text-base bg-blue-950 rounded-full font-semibold text-white hover:text-cyan-200 ">
                             Explore More 
                         </div>
@@ -173,7 +174,7 @@
             <div class="text-7xl font-bold my-2 ml-8">Our</div>
             <div class="text-7xl font-bold my-2 ml-8">Popular</div>
             <div class="text-7xl font-bold my-2 ml-8">Courses</div>
-            <a href="all_courses/" rel="noopener noreferrer">
+            <a href="/all_courses" rel="noopener noreferrer">
                 <div class="mt-8 w-fit p-4 ml-8 text-lg hover:text-xl hover:rounded-full hover:font-bold hover:text-black hover:bg-cyan-200 ">
                     Explore More ->
                 </div>
@@ -182,7 +183,7 @@
 
         <!---------------------------- Course card 1 --------------------->
         <div class="2 w-96 bg-white p-2 m-4 rounded-md flex flex-col">
-            <div class="w-full h-40 rounded-sm bg-cover bg-center bg-no-repeat" style="background-image: url(/images/intro\ to\ biostatics.jpg);">
+            <div class="w-full h-40 rounded-sm bg-cover bg-center bg-no-repeat" style="background-image: url('{% static 'images/intro_to_biostatics.jpg' %}');">
             </div>
             <div class="content flex flex-col h-2/3 grow justify-between align-bottom p-2 relative">
                 <div class="title font-bold">Master the fundamental concepts of Biostatistics </div>
@@ -239,7 +240,7 @@
                     </div>
                 </div>
 
-                <a href="course.html" target="_blank" rel="noopener noreferrer">
+                <a href="/all_courses"  rel="noopener noreferrer">
                     <div class="btn bg-cyan-600 p-3 grow -mb-1 rounded-md text-center text-white font-bold hover:bg-blue-950 hover:font-extrabold w-full">
                         Join Now
                     </div>
@@ -248,7 +249,7 @@
         </div>
         <!---------------------------- Course card 2 --------------------->
         <div class="2 w-96 bg-white p-2 m-4 rounded-md flex flex-col">
-            <div class="w-full h-40 rounded-sm bg-cover bg-center bg-no-repeat" style="background-image: url(images/data_viz.jpg);">
+            <div class="w-full h-40 rounded-sm bg-cover bg-center bg-no-repeat" style="background-image: url( {% static 'images/data_viz.jpg' %});">
                     
             </div>
             <div class="content flex-col p-2 flex justify-between grow">
@@ -306,7 +307,7 @@
                     </div>
                 </div>
 
-                <a href="http://" rel="noopener noreferrer">
+                <a href="/all_courses" rel="noopener noreferrer">
                     <div class="btn flex-row bg-cyan-600 p-3 -mb-1 rounded-md text-center text-white font-bold hover:bg-blue-950 hover:font-extrabold w-full">
                         Join Now
                     </div>
@@ -316,7 +317,7 @@
 
         <!---------------------------- Course card 3 --------------------->
         <div class=" hidden 2 w-96 h-1/4 bg-white p-2 m-4 rounded-md xl:flex xl:flex-col">
-            <div class="w-full h-40 rounded-sm bg-contain bg-no-repeat" style="background-image: url(images/bio_for_cs.jpg);">
+            <div class="w-full h-40 rounded-sm bg-contain bg-no-repeat" style="background-image: url({% static 'images/bio_for_cs.jpg' %});">
                 <!-- img here -->
             </div>
             <div class="content flex-col p-2 flex grow justify-between">
@@ -374,7 +375,7 @@
                     </div>
                 </div>
 
-                <a href="http://" rel="noopener noreferrer">
+                <a href="/all_courses" rel="noopener noreferrer">
                     <div class="btn flex-row bg-cyan-600 p-3 -mb-1 rounded-md text-center text-white font-bold hover:bg-blue-950 hover:font-extrabold w-full">
                         Join Now
                     </div>
@@ -388,7 +389,7 @@
     <div class="flex xl:mx-16 justify-around">
         
         <div class="xl:w-1/3 lg:w-2/3">
-            <img src="images/5274708.jpg" alt="" srcset="">
+            <img src="{% static 'images/5274708.jpg' %}" alt="" srcset="">
         </div>
         <div class="w-1/2 list-none p-8 lg:text-lg xl:text-xl xl:font-medium lg:font-normal xl:mx-12 lg:mt-10 xl:mt-0">
             <li class="flex m-2 my-8">
@@ -431,23 +432,23 @@
     <!--------------------------- Our Mentors ------------------------->
     <div class="text-center p-4 text-3xl font-semibold">Our Mentors</div>
     <div class="flex w-full justify-evenly py-4 my-4">
-        <a href="https://www.linkedin.com/in/manas-pratiti-96214b277">
-            <div class="w-40 h-40 bg-slate-300 rounded-full hover:w-44 hover:h-44 bg-cover bg-no-repeat bg-center" style="background-image: url(images/manas_pic.jpeg);"></div>
+        <a href="https://www.linkedin.com/in/manas-pratiti-96214b277" , target="_blank">
+            <div class="w-40 h-40 bg-slate-300 rounded-full hover:w-44 hover:h-44 bg-cover bg-no-repeat bg-center" style="background-image: url({% static 'images/manas_pic.jpeg' %});"></div>
         </a>
-        <a href="http://">
-            <div class="w-40 h-40 bg-slate-300 rounded-full hover:w-44 hover:h-44 bg-cover bg-no-repeat" style="background-image: url(images/neelesh_pic.jpeg);"></div>
+        <a href="http://" , target="_blank">
+            <div class="w-40 h-40 bg-slate-300 rounded-full hover:w-44 hover:h-44 bg-cover bg-no-repeat" style="background-image: url({% static 'images/neelesh_pic.jpeg' %});"></div>
         </a>
-        <a href="https://www.linkedin.com/in/prakriti-garg">
-            <div class="w-40 h-40 bg-slate-300 rounded-full hover:w-44 hover:h-44 bg-cover bg-no-repeat bg-center" style="background-image: url(images/prakriti_garg.jpg);"></div>
+        <a href="https://www.linkedin.com/in/prakriti-garg", target="_blank">
+            <div class="w-40 h-40 bg-slate-300 rounded-full hover:w-44 hover:h-44 bg-cover bg-no-repeat bg-center" style="background-image: url({% static 'images/prakriti_garg.jpg' %});"></div>
         </a>
-        <a href="https://www.linkedin.com/in/shailya-verma">
-            <div class="w-40 h-40 bg-slate-300 rounded-full hover:w-44 hover:h-44 bg-cover bg-no-repeat bg-center" style="background-image: url(images/shailya_pic.jpeg);"></div>
+        <a href="https://www.linkedin.com/in/shailya-verma", target="_blank">
+            <div class="w-40 h-40 bg-slate-300 rounded-full hover:w-44 hover:h-44 bg-cover bg-no-repeat bg-center" style="background-image: url({% static 'images/shailya_pic.jpeg' %});"></div>
         </a>
-        <a href="http://">
-            <div class="w-40 h-40 bg-slate-300 rounded-full hover:w-44 hover:h-44 bg-cover bg-no-repeat bg-center" style="background-image: url(images/shruti.jpeg);"></div>
+        <a href="http://" , target="_blank">
+            <div class="w-40 h-40 bg-slate-300 rounded-full hover:w-44 hover:h-44 bg-cover bg-no-repeat bg-center" style="background-image: url({% static 'images/shruti.jpeg' %});"></div>
         </a>
-        <a href="http://">
-            <div class="w-40 h-40 bg-slate-300 rounded-full hover:w-44 hover:h-44 bg-cover bg-no-repeat bg-center" style="background-image: url(images/sumit_dp.jpeg);"></div>
+        <a href="http://" , target="_blank">
+            <div class="w-40 h-40 bg-slate-300 rounded-full hover:w-44 hover:h-44 bg-cover bg-no-repeat bg-center" style="background-image: url({% static 'images/sumit_dp.jpeg' %});"></div>
         </a>
     </div>
 

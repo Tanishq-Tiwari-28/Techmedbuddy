@@ -117,20 +117,20 @@ def check_course_registration(request , course_id):
 
 def all_courses(request):
     all_courses = Course.objects.all()
-
-    courses = []
+    courses = []   
     for course in all_courses:
-        num = check_course_registration(request , course.course_id)
         instructors = list(course.instructor_id.all())
-        courses.append({'course': course, 'instructors': instructors})
-        print(instructors)
-    return render(request, "courses_new.html", {'courses': courses , 'num':num})
+        num = (check_course_registration(request , course.course_id))
+        courses.append({'course': course, 'instructors': instructors , 'num':num})
+        print(num)
+        print(courses)
+    return render(request, "courses_new.html", {'courses': courses})
 
 def register_courses(request, course_name):
     print(course_name)
     course = Course.objects.get(course_name = course_name)
     course_content = course.course_content
-    course_content = course_content.split(", ")
+    course_content = course_content.split(",")
     prerequisites = course.prerequisites
     prerequisites = prerequisites.split(",")
     learning_outcomes = course.learning_outcomes
@@ -141,6 +141,7 @@ def register_courses(request, course_name):
 # for payment gateway
 def verification(request, course_name):
     print(course_name, "dfgdsfgsd")
+    
     logged_user = Student.objects.get(user=request.user)
     if(request.user.is_authenticated):
         api = Instamojo(api_key = settings.API_KEY, auth_token = settings.AUTH_TOKEN, endpoint = "https://test.instamojo.com/api/1.1/")
@@ -150,27 +151,32 @@ def verification(request, course_name):
             user = request.user,
             is_paid = False
         )
-        url = f"http://127.0.0.1:8000/order_success/{course.course_id}/"
-        print("dugldugdsugsldfugsldhugf" , url)
-        # Create a new Payment Request
-        response = api.payment_request_create(
-            amount=course.cost,
-            purpose='Course Registration',
-            buyer_name = logged_user.fullname,
-            send_email=True,
-            email= request.user.email,
-            redirect_url=url
-        )
+        num = check_course_registration(request , course.course_id)
+        print("num" , num)
+        if(num == 0):
+            url = f"http://127.0.0.1:8000/order_success/{course.course_id}/"
+            print("dugldugdsugsldfugsldhugf" , url)
+            # Create a new Payment Request
+            response = api.payment_request_create(
+                amount=course.cost,
+                purpose='Course Registration',
+                buyer_name = logged_user.fullname,
+                send_email=True,
+                email= request.user.email,
+                redirect_url=url
+            )
 
-        order_obj.order_id = response['payment_request']['id']
-        order_obj.status = response['payment_request']['status']
-        order_obj.instamojo_response = response
-        order_obj.save()
+            order_obj.order_id = response['payment_request']['id']
+            order_obj.status = response['payment_request']['status']
+            order_obj.instamojo_response = response
+            order_obj.save()
 
-        return render(request, 'pay.html', {
-            'payment_url': response['payment_request']['longurl']
-        })
-        return HttpResponseRedirect("/")
+            return render(request, 'pay.html', {
+                'payment_url': response['payment_request']['longurl'] , 'num' :num
+            })
+        else:
+            return render(request, 'pay.html', {'num': num})
+        
     
     else:
         return render(request  , 'login.html')

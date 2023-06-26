@@ -1,4 +1,5 @@
-    <!DOCTYPE html>
+    
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
@@ -155,15 +156,13 @@
                             </svg>
                         </div>
                     </div>
-                    {% if num == 0 %}
-                        <!-- This block executes if `num` is equal to 1 -->
+                    {% if course.num == 0 %}
                         <a href="/all_courses/{{ course.course.course_name}}" rel="noopener noreferrer">
                             <div class="btn flex-row bg-cyan-600 p-3 -mb-1 rounded-md text-center text-white font-bold hover:bg-blue-950 hover:font-extrabold">
                                 Join Now
                             </div>
                         </a>
-                    {% elif num == 1 %}
-                        <!-- This block executes if `num` is equal to 0 -->
+                    {% elif course.num == 1 %}
                         <a href="/all_courses/{{ course.course.course_name}}" rel="noopener noreferrer">
                             <div class="btn flex-row bg-cyan-600 p-3 -mb-1 rounded-md text-center text-white font-bold hover:bg-blue-950 hover:font-extrabold">
                                 Already Registered
