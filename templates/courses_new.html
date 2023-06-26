@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://cdn.tailwindcss.com"></script>
-        <link rel="stylesheet" href="main.css">
+        <!-- <link rel="stylesheet" href="main.css"> -->
         <title>TechMedBuddy</title>
     </head>
     <body class="bg-blue-950">
@@ -155,12 +155,21 @@
                             </svg>
                         </div>
                     </div>
-    
-                    <a href="/all_courses/{{ course.course.course_name}}"  rel="noopener noreferrer">
-                        <div class="btn flex-row bg-cyan-600 p-3 -mb-1 rounded-md text-center text-white font-bold hover:bg-blue-950 hover:font-extrabold">
-                            Join Now
-                        </div>
-                    </a>
+                    {% if num == 0 %}
+                        <!-- This block executes if `num` is equal to 1 -->
+                        <a href="/all_courses/{{ course.course.course_name}}" rel="noopener noreferrer">
+                            <div class="btn flex-row bg-cyan-600 p-3 -mb-1 rounded-md text-center text-white font-bold hover:bg-blue-950 hover:font-extrabold">
+                                Join Now
+                            </div>
+                        </a>
+                    {% elif num == 1 %}
+                        <!-- This block executes if `num` is equal to 0 -->
+                        <a href="/all_courses/{{ course.course.course_name}}" rel="noopener noreferrer">
+                            <div class="btn flex-row bg-cyan-600 p-3 -mb-1 rounded-md text-center text-white font-bold hover:bg-blue-950 hover:font-extrabold">
+                                Already Registered
+                            </div>
+                        </a>
+                    {% endif %}
                 </div>
             </div>
             {% endfor %}

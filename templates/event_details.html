@@ -192,7 +192,6 @@
             </div>
             {% endif %}
         {% elif event.event_status == 'Past' %}
-            {% if num == 0%}
                 <div id="form" class="border border-slate-400 p-4 rounded-lg mt-16 text-md">
                     <form action="" method="POST" class="w-full inline-block mx-auto font-medium px-5 py-2">
                         {% csrf_token %}
@@ -209,7 +208,6 @@
                         <button type="submit" class="text-white bg-blue-950 hover:bg-cyan-600 text-center rounded-lg p-2 px-4">Submit</button>
                     </form>
                 </div>
-            {% endif %}
         {% endif %}
 
 

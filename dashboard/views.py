@@ -99,14 +99,32 @@ def login_view(request):
     return render(request, 'login.html')
 
 
+
+def check_course_registration(request , course_id):
+    course = Course.objects.get(course_id=course_id)
+    logged_user = Student.objects.get(user=request.user)
+    if(request.user.is_authenticated):
+        num = 0
+        is_registered_course = StudentOptedCourses.objects.filter(course_id=course, student_id=logged_user)
+        if is_registered_course:
+            num = 1
+            return num
+        return num
+    else:
+        return HttpResponseRedirect('/login/')
+
+
+
 def all_courses(request):
     all_courses = Course.objects.all()
+
     courses = []
     for course in all_courses:
+        num = check_course_registration(request , course.course_id)
         instructors = list(course.instructor_id.all())
         courses.append({'course': course, 'instructors': instructors})
         print(instructors)
-    return render(request, "courses_new.html", {'courses': courses})
+    return render(request, "courses_new.html", {'courses': courses , 'num':num})
 
 def register_courses(request, course_name):
     print(course_name)
@@ -222,7 +240,7 @@ def add_times(time1, time2):
 
 
 
-def check_registration(request , event_id):
+def check_event_registration(request , event_id):
     event = Event.objects.get(event_id=event_id)
     logged_user = Student.objects.get(user=request.user)
     if(request.user.is_authenticated):
@@ -247,7 +265,7 @@ def events(request):
     past_events = []
     current_datetime = timezone.localtime(timezone.now())
     for event in all_events:
-        num = check_registration(request , event.event_id)
+        num = check_event_registration(request , event.event_id)
         print("num" , num)
         currenttime = current_datetime.time()
         currentdate = current_datetime.date()
@@ -291,7 +309,7 @@ def events(request):
 def register_events(request , event_name):
     event = Event.objects.get(event_name=event_name)
     event_id = event.event_id
-    num = check_registration(request , event.event_id)
+    num = check_event_registration(request , event.event_id)
     print("num2" , num)
     print(event_id)
     if(request.method == 'POST'):
