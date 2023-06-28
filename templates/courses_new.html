@@ -6,7 +6,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://cdn.tailwindcss.com"></script>
-        <!-- <link rel="stylesheet" href="main.css"> -->
+        <link rel="stylesheet" href="../static/src/main.css">
         <title>TechMedBuddy</title>
     </head>
     <body class="bg-blue-950">
@@ -95,7 +95,22 @@
             
             
         </header>
-        
+        <script>
+            var descriptionElement = document.querySelector(".info");
+            var description = descriptionElement.textContent;
+
+            // Split the description into an array of words
+            var words = description.split(' ');
+
+            // Specify the maximum number of words you want to display
+            var maxWords = 20;
+
+            // Join the first 20 words and append an ellipsis
+            var truncatedDescription = words.slice(0, maxWords).join(' ') + '...';
+
+            // Update the element with the truncated description
+            descriptionElement.textContent = truncatedDescription;
+        </script>
         <div class="courses grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 2xl:gap-0 bg-blue-950 h-1/4 mt-20">
     
             <!---------------------------- Course card 1 --------------------->
@@ -107,6 +122,9 @@
                 <div class="content flex-col p-2 flex grow justify-between">
                     <div class="title font-bold">{{course.course.course_name}}</div>
                     <div class="info">{{course.course.course_description}}</div>
+
+                    
+
                     <div class="flex-col pt-4">
                         <div class="flex">
                             <div>

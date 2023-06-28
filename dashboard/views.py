@@ -2,7 +2,7 @@ from django.contrib.sessions.backends.db import SessionStore
 from django.shortcuts import render,  HttpResponseRedirect
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
-from .models import Course, Student, StudentOptedCourses, student_academics , Event , event_registration, Order , Instructor
+from .models import Course, Student, StudentOptedCourses, student_academics , Event , event_registration, Order , Instructor , Intern , Techteam
 from django.db.models import Q
 from django.contrib.auth.hashers import make_password, check_password
 from datetime import datetime, date, time
@@ -136,7 +136,10 @@ def register_courses(request, course_name):
     learning_outcomes = course.learning_outcomes
     learning_outcomes = learning_outcomes.split(",")
     print(learning_outcomes)
-    return render(request, 'course_new.html', {'course': course , 'course_content' : course_content , 'prerequisites':prerequisites, 'learning_outcomes' : learning_outcomes})
+    response = 0
+    if(course.cost.split(' ')[0][0] > '0' and course.cost.split(' ')[0][0] <= '9'):
+        response =1
+    return render(request, 'course_new.html', {'course': course , 'course_content' : course_content , 'prerequisites':prerequisites, 'learning_outcomes' : learning_outcomes , 'response' : response})
 
 # for payment gateway
 def verification(request, course_name):
@@ -146,6 +149,7 @@ def verification(request, course_name):
     if(request.user.is_authenticated):
         api = Instamojo(api_key = settings.API_KEY, auth_token = settings.AUTH_TOKEN, endpoint = "https://test.instamojo.com/api/1.1/")
         course = Course.objects.get(course_name=course_name)
+        
         order_obj, _ = Order.objects.get_or_create(
             course = course,
             user = request.user,
@@ -165,7 +169,7 @@ def verification(request, course_name):
                 email= request.user.email,
                 redirect_url=url
             )
-
+            print(response)
             order_obj.order_id = response['payment_request']['id']
             order_obj.status = response['payment_request']['status']
             order_obj.instamojo_response = response
@@ -224,7 +228,22 @@ def instructors(request):
         print(instructors)
     return render(request , 'instructors_new.html' ,  {'instructors':instructors})
 
-def techteam(request):
+
+def Interns(request):
+    all_interns = Interns.objects.all()
+    interns = []
+    for interns in all_interns:
+        interns.append({'interns':interns})
+        print(interns)
+    return render(request , 'interns.html' ,  {'interns':interns})
+
+
+def Techteam(request):
+    # all_Techteam = Techteam.objects.all()
+    # techteams = []
+    # for techteam in all_Techteam:
+    #     techteams.append({'techteam': techteam})
+    #     print(techteams)
     return render(request , 'techteam.html')
 
 
@@ -271,7 +290,7 @@ def events(request):
     past_events = []
     current_datetime = timezone.localtime(timezone.now())
     for event in all_events:
-        num = check_event_registration(request , event.event_id)
+        num = (check_event_registration(request , event.event_id))
         print("num" , num)
         currenttime = current_datetime.time()
         currentdate = current_datetime.date()
@@ -281,32 +300,25 @@ def events(request):
         starttime = event_startdatetime.time()
         endtime = event_enddatetime.time()
         startdate = event_startdatetime.date()
-        enddate = event_enddatetime.date()
-        events.append({'event': event})
+        enddate = event_enddatetime.date()    
         if (startdate > currentdate) or (startdate == currentdate and currenttime < starttime):
             upcoming_events.append({'event': event})
             event.event_status = "Upcoming"
-            event.save()
+            # event.save()
         elif (startdate < currentdate) or  (startdate == currentdate and currenttime > endtime):
             past_events.append({'event': event})
             event.event_status = "Past"
-            event.save()
+            print(event)
+            # event.save()
         elif (startdate == currentdate) and (currenttime <= endtime) and (currenttime >= starttime):
             live_events.append({'event': event})
             event.event_status = "Live"
-            event.save()
-        print(event.event_duration)
-        print(starttime)
-        print(startdate)
-        print(endtime)
-        print(enddate)
-        print(currenttime)
-        print("\n")
-    print(upcoming_events)
-    print(live_events)
-    print(past_events)
-    return render(request, 'events.html', {'events': events,'upcoming_events': upcoming_events,'live_events': live_events,'past_events': past_events , 'num':num
-    })
+            # event.save()
+        events.append({'event':event, 'num': num }) 
+    events.append({'upcoming_events': upcoming_events , 'live_events':live_events , 'past_events':past_events})
+    # final = list(zip(events, num))
+    print(events)   
+    return render(request, 'events.html', {'events':events })
 
 
 

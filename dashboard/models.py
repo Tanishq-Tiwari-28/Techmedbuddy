@@ -49,6 +49,39 @@ class Instructor(models.Model):
         managed = True
         db_table = 'instructor'
 
+class Intern(models.Model):
+    intern_id = models.CharField(primary_key=True, max_length=255)
+    image = models.CharField(max_length=1000)
+    intern_name = models.CharField(max_length=255)
+    intern_description = models.TextField()
+    intern_qualification = models.TextField()
+    class Meta:
+        managed = True
+        db_table = 'Intern'
+
+class Techteam(models.Model):
+    techteam_id = models.CharField(primary_key=True, max_length=255)
+    image = models.CharField(max_length=1000)
+    techteam_name = models.CharField(max_length=255)
+    techteam_description = models.TextField()
+    techteam_qualification = models.TextField()
+    class Meta:
+        managed = True
+        db_table = 'Techteam'
+
+
+class Executive(models.Model):
+    executives_id = models.CharField(primary_key=True, max_length=255)
+    image = models.CharField(max_length=1000)
+    executives_name = models.CharField(max_length=255)
+    executives_description = models.TextField()
+    executives_qualification = models.TextField()
+    class Meta:
+        managed = True
+        db_table = 'Executives'
+
+
+
 class Course(models.Model):
     course_id = models.CharField(primary_key=True, max_length=255)
     course_name = models.CharField(max_length=255)
@@ -58,8 +91,7 @@ class Course(models.Model):
     # Field name made lowercase.
     course_description = models.TextField(
         db_column='course_Description', blank=True, null=True)
-    cost = models.DecimalField(
-        max_digits=10, decimal_places=2, blank=True, null=True)
+    cost = models.CharField(max_length =255)
     opening_date = models.DateField(blank=True, null=True)
     rating = models.IntegerField(blank=True, null=True)
     students_enrolled = models.IntegerField(blank=True, null=True)
@@ -70,7 +102,7 @@ class Course(models.Model):
         db_column='Prerequisites', blank=True, null=True)
     learning_outcomes = models.TextField(blank=True, null=True)
     course_content = models.TextField(blank=True, null=True)
-
+    certification_criteria = models.TextField(blank=True, null=True)
     class Meta:
         managed = True
         db_table = 'course'
@@ -117,9 +149,9 @@ class Event(models.Model):
     event_banner = models.TextField(blank=True, null=True)
     speaker_image = models.TextField(blank=True, null=True)
     event_link = models.TextField(blank=True, null=True)
-    event_description = models.CharField(max_length=255, blank=True, null=True)
+    event_description = models.TextField()
     event_speaker = models.CharField(max_length=255)
-    speaker_description = models.CharField(max_length=255)
+    speaker_description = models.TextField()
     event_startdatetime = models.DateTimeField()
     event_enddatetime = models.DateTimeField()
     event_duration = models.TextField()
