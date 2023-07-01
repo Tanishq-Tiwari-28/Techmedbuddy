@@ -24,7 +24,7 @@ from django.core.mail import send_mail
 
 
 def home(request):
-    return render(request, 'index_new.html')
+    return render(request, 'index.html')
 
 
 def signup_view(request):
@@ -132,7 +132,7 @@ def all_courses(request):
             courses.append({'course': course, 'instructors': instructors})
             print(courses)
 
-    return render(request, "courses_new.html", {'courses': courses})
+    return render(request, "courses.html", {'courses': courses})
 
 def register_courses(request, course_name):
     course = Course.objects.get(course_name = course_name)
@@ -146,7 +146,7 @@ def register_courses(request, course_name):
     response = 0
     if(course.cost.split(' ')[0][0] > '0' and course.cost.split(' ')[0][0] <= '9'):
         response =1
-    return render(request, 'course_new.html', {'course': course , 'course_content' : course_content , 'prerequisites':prerequisites, 'learning_outcomes' : learning_outcomes , 'response' : response})
+    return render(request, 'course.html', {'course': course , 'course_content' : course_content , 'prerequisites':prerequisites, 'learning_outcomes' : learning_outcomes , 'response' : response})
 
 # for payment gateway
 def verification(request, course_name):
@@ -232,15 +232,14 @@ def instructors(request):
     for instructor in all_instructors:
         instructors.append({'instructor': instructor})
         print(instructors)
-    return render(request , 'instructors_new.html' ,  {'instructors':instructors})
+    return render(request , 'instructors.html' ,  {'instructors':instructors})
 
 
 def Interns(request):
-    all_interns = Interns.objects.all()
+    all_interns = Intern.objects.all()
     interns = []
-    for interns in all_interns:
-        interns.append({'interns':interns})
-        print(interns)
+    for intern in all_interns:
+        interns.append({'intern':intern})
     return render(request , 'interns.html' ,  {'interns':interns})
 
 
@@ -252,6 +251,8 @@ def Techteam(request):
     #     print(techteams)
     return render(request , 'techteam.html')
 
+def about(request):
+    return render(request , 'about.html')
 
 def add_times(time1, time2):
     # Create datetime objects with the minimum date and the time values
@@ -310,17 +311,16 @@ def events(request):
         if (startdate > currentdate) or (startdate == currentdate and currenttime < starttime):
             upcoming_events.append({'event': event})
             event.event_status = "Upcoming"
-
-            # event.save()
+            event.save()
         elif (startdate < currentdate) or  (startdate == currentdate and currenttime > endtime):
             past_events.append({'event': event})
             event.event_status = "Past"
             print(event)
-            # event.save()
+            event.save()
         elif (startdate == currentdate) and (currenttime <= endtime) and (currenttime >= starttime):
             live_events.append({'event': event})
             event.event_status = "Live"
-                # event.save()
+            event.save()
         if(request.user.is_authenticated):
             events.append({'event':event, 'num': num }) 
         else:
@@ -337,30 +337,52 @@ def events(request):
 
 def register_events(request , event_name):
     event = Event.objects.get(event_name=event_name)
-    if(request.user.is_authenticated):
-        event_id = event.event_id
+    if(request.user.is_authenticated):  
         num = check_event_registration(request , event.event_id)
     if(request.method == 'POST'):
         previous_event = request.POST.get('previous_event')
         event_knowledge = request.POST.get('event_knowledge')
-        event_source = request.POST.get('event_source') 
+        event_source = request.POST.get('event_source')
+        
         print("IN poST method")
         if(request.user.is_authenticated):
-            print("student registered for event")
-            event_register = event_registration()
-            logged_user = Student.objects.get(user=request.user)
-            event_register.student_id = logged_user
-            event_register.event_id = event
-            event_register.previous_event = previous_event
-            event_register.previous_knowledge = event_knowledge
-            event_register.event_source = event_source
-            event_register.save()
+            if(event.event_status == "Upcoming" or event.event_status == "Live"):
+                print("student registered for event")
+                event_register = event_registration()
+                logged_user = Student.objects.get(user=request.user)
+                event_register.student_id = logged_user
+                event_register.event_id = event
+                event_register.previous_event = previous_event
+                event_register.previous_knowledge = event_knowledge
+                event_register.event_source = event_source
+                event_register.save()
+                # Email Integration
+                content = "This is the conformation of Event Registration from Techmedbuddy"
+                name =  logged_user.fullname
+                email = logged_user.email
+                send_mail(
+                    subject="Regarding Course Registration",
+                    message=f"Hi, {name} \n" + content,
+                    from_email="om21481@iiitd.ac.in",
+                    recipient_list=[email],
+                    fail_silently=False
+                )
+            elif(event.event_status == "Past"):
+                feedback = request.POST.get('feedback') 
+                suggestions = request.POST.get('suggestions')
+                # submit feedback
+                event_reg = event_registration.objects.get(event_id=event.event_id)
+                event_reg.feedback = feedback
+                event_reg.suggestions = suggestions
+                event_reg.save()
+
             return HttpResponseRedirect("/all_events/")
         else:
             return HttpResponseRedirect('/login/')
     if(request.user.is_authenticated):
         return render(request, 'event_details.html' , {'event': event , 'num':num})
-    return render(request, 'event_details.html' , {'event': event , 'num' : 0})
+    else:
+        return render(request, 'event_details.html' , {'event': event , 'num' : 0})
 
 
 def logout(request):

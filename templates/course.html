@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://cdn.tailwindcss.com"></script>
-        <link rel="stylesheet" href="main.css">
+        <!-- <link rel="stylesheet" href="main.css"> -->
         <title>TechMedBuddy</title>
     </head>
     <body class="">
@@ -14,33 +14,37 @@
         <header class="flex ">
             <nav class="z-30 bg-white flex justify-between fixed w-full h-16 shadow-md p-4">
                 <ul class="flex font-semibold text-xl">
-                    <li class="mr-4 hover:text-blue-800 "><a href="index.html">Home</a></li>
-                    <li class="mr-4 hover:text-blue-800 "><a href="about.html">About</a></li>
-                    <li class="mr-4 hover:text-blue-800 "><a href="courses.html">Courses</a></li>
+                    <li class="mr-4 hover:text-blue-800 "><a href="/">Home</a></li>
+                    <li class="mr-4 hover:text-blue-800 "><a href="/about">About</a></li>
+                    <li class="mr-4 hover:text-blue-800 "><a href="/all_courses">Courses</a></li>
                     <li class="group mr-4"><a href="#" class="hover:text-blue-800 ">Teams</a>
                         <ul class="hidden absolute flex-col group-hover:flex bg-white p-2 shadow-lg shadow-gray-400">
                             <li class="hover:text-blue-800  py-2">
-                                <a href="instructors.html">Instructors</a>
+                                <a href="/all_instructors">Instructors</a>
                             </li>
                             <li class="hover:text-blue-800 py-2">
-                                <a href="">Technical Team</a>
+                                <a href="/techteam">Technical Team</a>
                             </li>
                             <li class="hover:text-blue-800 py-2">
                                 <a href="">Executives</a>
                             </li>
                         </ul>
                     </li>
-                    <li class="mr-4 hover:text-blue-800 "><a href="events.html">Events</a></li>
+                    <li class="mr-4 hover:text-blue-800 "><a href="/all_events">Events</a></li>
                 </ul>
     
                 <ul class="flex font-semibold text-xl">
-                    <li class="mr-4 hover:text-blue-800 "><a href="#">Interns</a></li>
-                    <li class="mr-4 hover:text-blue-800 "><a href="#">Login</a></li>
-                    <li class="mr-4 hover:text-blue-800 "><a href="#">Sign up</a></li>
+                    <li class="mr-4 hover:text-blue-800 "><a href="/all_interns">Interns</a></li>
+                    {% if not user.is_authenticated %}
+                    <li class="mr-4 hover:text-blue-800 "><a href="/login">Login</a></li>
+                    <li class="mr-4 hover:text-blue-800 "><a href="/signup">Sign up</a></li>
+                    {% endif %}
+                    {% if user.is_authenticated %}
+                        <li class="mr-4 hover:text-blue-800 "><a href="/logout">Logout</a></li>
+                    {% endif %}
                 </ul>
             </nav>
             <div style="margin-left: 50%;" class="z-40 fixed flex bg-white rounded-full shadow-md ml-96 ">
-                <!-- <img src="images/Course card.PNG" alt="Logo"> -->
                     <svg class="" width="75" height="75" viewBox="0 0 75 75" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <mask id="mask0_71_230" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="75" height="75">
                     <path d="M0 0H74.9779V74.98H0V0Z" fill="white"/>
@@ -93,7 +97,7 @@
 
         <div class="mt-16 p-4 text-white w-full h-1/2 bg-blue-950 flex">
             <div class="w-2/3 flex flex-col mx-10">
-                <h1 class="text-3xl md:text-5xl font-bold md:font-extrabold my-5">R for Bioinformatics: Unlocking the Power of Data Analysis</h1>
+                <h1 class="text-3xl md:text-5xl font-bold md:font-extrabold my-5">{{course.course_name}}</h1>
                 <div class="flex mt-4 p-4 text-2xl font-medium text-gray-300">
                     <div class="flex flex-col">
                         <div class="m-1">Instructors:</div>
@@ -102,39 +106,28 @@
                         <div class="m-1">Available Seats:</div>
                     </div>
                     <div class="flex flex-col ml-2 text-xl">
-                        <div class="m-2">Alok Anand and Prakriti Garg</div>
-                        <div class="m-1">&#8377; 1000</div>
-                        <div class="m-2 mb-1">30 Hours</div>
-                        <div class="m-2">30</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- <div class="mt-16 p-4 text-white w-full h-1/2 bg-blue-950 flex">
-            <div class="w-2/3 flex flex-col mx-10">
-                <h1 class="text-center text-3xl md:text-5xl font-bold md:font-extrabold my-5 mx-auto">{{course.course_name}}</h1>
-                <div class="flex mx-auto mt-4 p-4 text-2xl font-medium text-gray-300">
-                    <div class="flex flex-col">
-                        <div class="m-1">Instructors:</div>
-                        <div class="m-1">Course Fee:</div>
-                        <div class="m-1">Duration:</div>
-                        <div class="m-1">Available Seats:</div>
-                    </div>
-                    <div class="flex flex-col ml-2 text-xl" >
-                        {% for instructor in course.instructor_id.all %}<div class="m-2">{{instructor.instructor_name}}</div>{% endfor %}
+                        {% for instructor in course.instructor_id.all %}
+                        <div class="m-2">{{instructor.instructor_name}}</div>{% endfor %}
                         <div class="m-1">&#8377; {{course.cost}}</div>
                         <div class="m-2 mb-1">{{course.course_duration}}</div>
                         <div class="m-2">{{course.available_seats}}</div>
                     </div>
                 </div>
             </div>
-        </div> -->
+        </div>
+
         <div class="p-4 text-white w-full h-1/2 flex justify-end z-10">
-            <div class="-mt-72 w-[30%] h-auto shadow-lg shadow-slate-500 bg-white p-4 flex flex-col justify-between rounded-md mr-6">
+            <div class="-mt-72 w-1/3 h-auto shadow-lg shadow-slate-500 bg-white p-4 flex flex-col justify-between rounded-md mr-6">
                 <div class="w-auto h-[200px] md:h-[250px] lg:h-[300px] rounded-md bg-center bg-contain bg-no-repeat" style="background-image: url(/images/r.jpg);"></div>
-                <a href="">
+                {%if response == 1%}
+                <a href="/all_courses/{{course.course_name}}/verification/">
                     <div class="bg-blue-900 p-2 rounded-lg text-center font-semibold text-2xl mt-3 hover:bg-cyan-600">Start Learning</div>
                 </a>
+                {%else%}
+                <a href="">
+                    <div class="bg-blue-900 p-2 rounded-lg text-center font-semibold text-2xl mt-3 hover:bg-cyan-600">Currently Unavailable</div>
+                </a>
+                {%endif%}
             </div>
         </div>
     
@@ -144,35 +137,35 @@
             <div class="course-content w-2/3 p-4 mx-5 -mt-10 ml-10 rounded-2xl flex flex-col justify-around">
                 <div class="p-4 m-6 ml-10 rounded-2xl bg-cyan-50">
                     <h1 class="text-3xl font-medium ">Description</h1>
-                    <p class="text-md font-normal my-6">Through interactive lectures, hands-on exercises, and real-world case studies, students will gain a solid foundation in R programming and its application to bioinformatics. By the end of the course, students will be able to code and debug their problems and analyze biological datasets such as transcriptome and sequential datasets, i.e., Genome in R language with the number of packages.</p>
+                    <p class="text-md font-normal my-6">{{course.course_description}}</p>
                 </div>
                 <div class="p-4 m-6 ml-10 rounded-2xl bg-cyan-50 text-xl">
                     <h1 class="text-3xl font-medium my-3 mb-4">Course content</h1>
-                    <div class="my-2">Module 1:  Basics of programming</div>
-                    <div class="my-2">Module 2:  Loops and conditionals</div>
-                    <div class="my-2">Module 3:  Dataframes and manipulation of data</div>
-                    <div class="my-2">Module 4:  Basic statistics and analysis</div>
-                    <div class="my-2">Module 5:  Microarray data analysis and GSEA</div>
-                    <div class="my-2">Module 6:  Introduction to TCGA data</div>
-                    <div class="my-2">Module 7:  Differential expression analysis of SC-RNA seq data analysis</div>
+                    {% for item in course_content %}
+                        <div class="my-2">Module {{ forloop.counter }}: {{ item }}</div>
+                    {% endfor %}
+
+
                 </div>
             </div>
             <div class="pre-requisite-section w-1/3 flex flex-col justify-start">
                 <div class=" m-6 p-4 mr-10 rounded-lg shadow-lg shadow-slate-500 border border-slate-200 flex flex-col justify-around">
                     <div class="pre-requisite ml-4 p-4">
-                        <h1 class="text-3xl font-medium">Pre - requisite:</h1>
-                        <div class="p-2 m-2 text-lg font-light">
-                            <li>Willingness to learn</li>
-                            <li>Basics of Biology</li>
-                        </div>
-                        
-                    </div>
-                    <div class="learning-outcome ml-5">
-                        <h1 class="font-medium text-2xl">Learning Outcome</h1>
+                        <h1 class="text-2xl font-medium">Pre - requisite:</h1>
                         <div class="ml-6 p-2 m-2 text-lg font-light">
-                            <li>First</li>
-                            <li>Second</li>
-                            <li>Third</li>
+                            {% for item in prerequisites %}
+                                <li>{{item}}</li> 
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                    <div class="learning-outcome ml-4 p-4">
+                        <h1 class="font-medium text-2xl">Learning Outcome:</h1>
+                        <div class="ml-6 p-2 m-2 text-lg font-light">
+                            {% for item in learning_outcomes %}
+                                <li>{{item}}</li> 
+                            {% endfor %}
+                            
                         </div>
                     </div>
                 </div>
@@ -180,46 +173,151 @@
         </div>
         
         <!----------------------- Instructor section -------------------->
-        
+        {% for instructor in course.instructor_id.all %}
         <div class="bg-blue-950 p-5">
             <div class="flex flex-col w-[80%] mx-auto shadow-2xl bg-white rounded-lg">
-                <h1 class="font-bold text-3xl p-4">Know your Instructors</h1>
+                <h1 class="font-bold text-3xl p-4">Know About {{instructor.instructor_name}} </h1>
                 <div class="w-full p-4 flex justify-around">
                     
                     <div class="w-3/4 flex flex-col justify-center">
                         <p class="p-4 text-base leading-7">
-                            With strong foundational skills in biostatistics, Machine Learning and Deep Learning, I am working with a multi-omics approach to Cancer Biology. With more than 6+ years of teaching experience, I am passionate about interacting with youths and guiding and teaching them from course curriculum to real life issues.
-    
+                            {{instructor.instructor_description}} 
                         </p>
                     </div>
                     
                     <div class="w-1/4 flex flex-col justify-around">
                         <div class="w-60 h-60 lg:w-40 lg:h-40 bg-slate-300 mx-auto rounded-xl  bg-cover bg-no-repeat " style="background-image: url();"></div>
-                        <div class="text-center text-black font-semibold">Alok Anand </div>
-                        <div class="text-center text-black">P.hD. (Computational Biology , IIITD) </div>
+                        <div class="text-center text-black font-semibold">{{instructor.instructor_name}}</div>
+                        <div class="text-center text-black">{{instructor.instructor_qualification}} </div>
                     </div>
                 </div>
-    
-                <div class="w-full p-4 flex justify-around">
-                    
-                    <div class="w-3/4 flex flex-col justify-center">
-                        <p class="p-4 text-base leading-7">
-                            Being a graduate in Computer science with Bio-sciences, I am highly passionate about the intersection of Computer Science, Artificial Intelligence and its application in the Healthcare domain. Other than academia, I love to teach and interact with youth and guide them from my experience.
-                        </p>
-                    </div>
-                    
-                    <div class="w-1/4 flex flex-col justify-around">
-                        <div class="w-60 h-60 lg:w-40 lg:h-40 bg-slate-300 mx-auto rounded-xl  bg-cover bg-no-repeat " style="background-image: url(images/prakriti_garg.jpg);"></div>
-                        <div class="text-center text-black font-semibold">Prakriti Garg</div>
-                        <div class="text-center text-black">B.Tec. CSB(IIITD)</div>
-                    </div>
-    
-                </div>
-                
             </div>
         </div>
+        {% endfor %}
 
 
+        <!-- Footer container -->
+   <footer
+   class="bg-blue-950 text-center text-white lg:text-left">
+   <div
+     class="flex items-center justify-center border-b-2 border-neutral-200 p-6 lg:justify-between">
+     <div class="mr-12 hidden lg:block">
+       <span>Get connected with us on social networks:</span>
+     </div>
+     <!-- Social network icons container -->
+     <div class="flex justify-center">
+       
+       
+       <a href="https://www.linkedin.com/company/techmedbuddy/" class="mr-6">
+         <svg
+           xmlns="http://www.w3.org/2000/svg"
+           class="h-4 w-4"
+           fill="currentColor"
+           viewBox="0 0 24 24">
+           <path
+             d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z" />
+         </svg>
+       </a>
+       <a href="https://www.youtube.com/channel/UCpo_47ELnxmhmG-A8jGlJeQ" class="mr-6">
+           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-youtube" viewBox="0 0 16 16">
+               <path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.007 2.007 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.007 2.007 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31.4 31.4 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.007 2.007 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A99.788 99.788 0 0 1 7.858 2h.193zM6.4 5.209v4.818l4.157-2.408L6.4 5.209z"/>
+             </svg>
+         </a>
+     </div>
+   </div>
+   
+   <div class="mx-6 py-10 text-center md:text-left">
+     <div class="grid-1 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+       
+       <!-- Company section -->
+       <div class="">
+         <h6
+           class="mb-4 flex justify-center font-semibold uppercase ">
+           Company
+         </h6>
+         <p class="mb-4">
+           <a href="#" class=""
+             >About</a
+           >
+         </p>
+         <p class="mb-4">
+           <a href="/all_instructors" class=""
+             >Meet the Team</a
+           >
+         </p>
+       </div>
+       <!-- Useful links section -->
+       <div class="flex flex-col ">
+         <h6
+           class="mb-4 flex justify-center font-semibold uppercase ">
+           Useful links
+         </h6>
+         <p class="mb-4">
+           <a href="/all_events" class=""
+             >Events</a
+           >
+         </p>
+         <p class="mb-4">
+           <a href="/all_courses" class=""
+             >Courses</a
+           >
+         </p>
+         <p class="mb-4">
+           <a href="#" class=""
+             >Interns</a
+           >
+         </p>
+       </div>
+       <!-- Contact section -->
+       <div>
+         <h6
+           class="mb-4 flex justify-center font-semibold uppercase md:justify-start">
+           Contact
+         </h6>
+         <div class="mb-4 flex  items-center justify-center md:justify-start">
+           <svg
+             xmlns="http://www.w3.org/2000/svg"
+             viewBox="0 0 24 24"
+             fill="currentColor"
+             class="mr-3 h-5 w-5">
+             <path
+               d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z" />
+             <path
+               d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z" />
+           </svg>
+           
+           <div class="flex flex-col">
+               <div class="">techmedbuddy@gmail.com</div>
+               <div class="">alok@techmedbuddy.com</div>
+           </div>
+       </div>
+         <div class="mb-4 flex items-center justify-center md:justify-start">
+           <svg
+             xmlns="http://www.w3.org/2000/svg"
+             viewBox="0 0 24 24"
+             fill="currentColor"
+             class="mr-3 h-5 w-5">
+             <path
+               fill-rule="evenodd"
+               d="M1.5 4.5a3 3 0 013-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 01-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.285 11.285 0 006.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.875 1.875 0 011.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 01-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5z"
+               clip-rule="evenodd" />
+           </svg>
+           <div class="flex flex-col">
+               <div class="">+91 8802765425</div>
+               <div class="">+91 82871 82209</div>
+           </div>
+       </div>
+         
+       </div>
+     </div>
+   </div>
+   
+   <!--Copyright section-->
+   <div class="bg-blue-950 p-6 text-center text-white">
+     <span>© 2023 Copyright:</span>
+     <a class="font-semibold" href="/" style="text-decoration: none;">TechMedBuddy</a>
+   </div>
+   </footer>
     </body>
 
 </html>

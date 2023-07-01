@@ -1,42 +1,46 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="https://cdn.tailwindcss.com"></script>
-        <link rel="stylesheet" href="../static/src/main.css">
-        <title>TechMedBuddy</title>
-    </head>
-    <body>
-    
-        <!--------------------------------- Header --------------------------------->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- <link rel="stylesheet" href="main.css"> -->
+    <title>TechMedBuddy</title>
+</head>
+<body class="bg-slate-100">
+
+    <!--------------------------------- Header --------------------------------->
     <header class="flex ">
         <nav class="z-30 bg-white flex justify-between fixed w-full h-16 shadow-md p-4">
 			<ul class="flex font-semibold text-xl">
-				<li class="mr-4 hover:text-blue-800 hover:no-underline no-underline"><a href="index.html">Home</a></li>
-                <li class="mr-4 hover:text-blue-800 "><a href="about.html">About</a></li>
-				<li class="mr-4 hover:text-blue-800 "><a href="courses.html">Courses</a></li>
-                <li class="group mr-4">Teams
+				<li class="mr-4 hover:text-blue-800 "><a href="/">Home</a></li>
+                <li class="mr-4 hover:text-blue-800 "><a href="/about">About</a></li>
+				<li class="mr-4 hover:text-blue-800 "><a href="/all_courses">Courses</a></li>
+                <li class="group mr-4 ">Teams
                     <ul class="hidden absolute flex-col group-hover:flex bg-white p-2 shadow-lg shadow-gray-400">
                         <li class="hover:text-blue-800  py-2">
-                            <a href="instructors.html">Instructors</a>
+                            <a href="/all_instructors">Instructors</a>
                         </li>
                         <li class="hover:text-blue-800 py-2">
-                            <a href="">Technical Team</a>
+                            <a href="/techteam">Technical Team</a>
                         </li>
                         <li class="hover:text-blue-800 py-2">
                             <a href="">Executives</a>
                         </li>
                     </ul>
                 </li>
-				<li class="mr-4 hover:text-blue-800 "><a href="events.html">Events</a></li>
+				<li class="mr-4 hover:text-blue-800 "><a href="/all_events">Events</a></li>
 			</ul>
 
             <ul class="flex font-semibold text-xl">
-				<li class="mr-4 hover:text-blue-800 "><a href="#">Interns</a></li>
-                <li class="mr-4 hover:text-blue-800 "><a href="#">Login</a></li>
-				<li class="mr-4 hover:text-blue-800 "><a href="#">Sign up</a></li>
+                {% if not user.is_authenticated %}
+                <li class="mr-4 hover:text-blue-800 "><a href="/login">Login</a></li>
+                <li class="mr-4 hover:text-blue-800 "><a href="/signup">Sign up</a></li>
+                {% endif %}
+                {% if user.is_authenticated %}
+                    <li class="mr-4 hover:text-blue-800 "><a href="/logout">Logout</a></li>
+                {% endif %}
 			</ul>
 		</nav>
 		<div style="margin-left: 50%;" class="z-40 fixed flex bg-white rounded-full shadow-md ml-96 ">
@@ -90,49 +94,21 @@
         
 		
 	</header>
+
     
-
-    <div class="main flex mt-24">
-        <div class="pic w-1/2 xl:w-1/2 -mt-14">
-            <img class="mt-16" src="../static/images/login.jpg" alt="no img" srcset="">
-            <br>
-            <p class=" xl:-mt-24 ml-12 italic text-gray-400"><a href="https://www.freepik.com/free-vector/login-concept-illustration_6184159.htm#query=log%20in&position=15&from_view=search&track=ais">Image by storyset</a> on Freepik</p>
+    <div class="w-[1000px] h-[250px] mx-auto mt-20 grid grid-cols-4 gap-4">
+        {%for intern in interns%}
+        <div class="flex flex-col justify-around shadow-lg rounded-lg w-[200px] h-[300px] bg-blue-900 ">
+          <div class="w-44 h-40 -mt-4 bg-slate-300 mx-auto rounded-xl bg-cover bg-center bg-no-repeat " style="background-image: url();"></div>
+          <div class="">
+            <p class="text-center font-semibold text-white">{{intern.intern.intern_name}}</p>
+            <p class="text-center text-white">{{intern.intern.intern_qualification}}</p>
+          </div>
         </div>
-        <div class="form w-1/2 mr-6 ml-12 px-6 grow text-lg xl:text-xl xl:mt-6 flex flex-col justify-around">
-            <form action="" method="POST" class=" w-full max-w-[500px] mx-10 inline-block font-medium text-gray-700 border border-slate-600 rounded-xl shadow-xl">
-                {%csrf_token%}
-                <div class=" my-5 mx-auto">
-                    <label for="email" class="ml-[10%]">Email: </label>
-                    <input type="email" id="email" name="email" required class=" py-1 px-3 xl:mb-3 border border-gray-300 rounded-md">
-                </div>
-                <div class=" my-5">
-                    <label for="password" class="ml-[10%]">Password:</label>
-                    <input type="text" id="password" name="password" required class="mt-5 py-1 px-3 xl:mb-3 border border-gray-300 rounded-md">
-                </div>
-                <div class="text-end text-sm px-2 mr-[10%] text-blue-500 hover:text-blue-600">
-                    <a href="" >Forgot password</a>
-                </div>
-                
-                <div class="flex justify-around">
-                    <input type="submit" value="Login" class="items-center justify-center py-2 px-4 mt-4 bg-blue-500 text-white font-semibold rounded-md hover:cursor-pointer hover:bg-cyan-500">
-                </div>
-
-                
-                <hr class="bg-slate-500 h-0.5 m-2">
-                <div class="w-fit my-2 mx-auto">
-                    <div class="px-2 group border border-gray-400 rounded-lg shadow-lg  hover:text-blue-600">
-                        <a class="py-2 flex justify-center" href="#">
-                        <img class="w-6 h-auto mx-2 group-hover:bg-white" src="https://img.icons8.com/color/16/000000/google-logo.png"> 
-                        Signup Using Google</a>
-
-                    </div>
-                </div>
-
-                
-            </form>
-            
-        </div>
+        {%endfor%}
     </div>
+    
+    
 
 </body>
 </html>
