@@ -162,13 +162,13 @@
                             <div class="">{{event.event.event_fees}}</div>
                         </div>
                     </div>
-                    {% if event.num == 0 %}
+                    {% if event.num == 1 %}
                         <a href="/all_events/{{ event.event.event_name }}">
-                            <div class="text-white bg-blue-950 hover:bg-cyan-600 text-center rounded-lg p-2">Register Now</div>
+                            <div class="text-white bg-blue-950 hover:bg-cyan-600 text-center rounded-lg p-2">Already Registered</div>
                         </a>
                     {% else %}
                         <a href="/all_events/{{ event.event.event_name }}">
-                            <div class="text-white bg-blue-950 hover:bg-cyan-600 text-center rounded-lg p-2">Already Registered</div>
+                            <div class="text-white bg-blue-950 hover:bg-cyan-600 text-center rounded-lg p-2">Register Now</div>
                         </a>
                     {% endif %}
 

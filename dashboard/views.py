@@ -118,16 +118,23 @@ def check_course_registration(request , course_id):
 def all_courses(request):
     all_courses = Course.objects.all()
     courses = []   
-    for course in all_courses:
-        instructors = list(course.instructor_id.all())
-        num = (check_course_registration(request , course.course_id))
-        courses.append({'course': course, 'instructors': instructors , 'num':num})
-        print(num)
-        print(courses)
+    if(request.user.is_authenticated):
+        for course in all_courses:
+            instructors = list(course.instructor_id.all())
+            num = (check_course_registration(request , course.course_id))
+            courses.append({'course': course, 'instructors': instructors , 'num':num})
+            print(num)
+            print(courses)
+    else:
+        for course in all_courses:  
+            instructors = list(course.instructor_id.all())
+            # num = (check_course_registration(request , course.course_id))
+            courses.append({'course': course, 'instructors': instructors})
+            print(courses)
+
     return render(request, "courses_new.html", {'courses': courses})
 
 def register_courses(request, course_name):
-    print(course_name)
     course = Course.objects.get(course_name = course_name)
     course_content = course.course_content
     course_content = course_content.split(",")
@@ -144,9 +151,8 @@ def register_courses(request, course_name):
 # for payment gateway
 def verification(request, course_name):
     print(course_name, "dfgdsfgsd")
-    
-    logged_user = Student.objects.get(user=request.user)
     if(request.user.is_authenticated):
+        logged_user = Student.objects.get(user=request.user)
         api = Instamojo(api_key = settings.API_KEY, auth_token = settings.AUTH_TOKEN, endpoint = "https://test.instamojo.com/api/1.1/")
         course = Course.objects.get(course_name=course_name)
         
@@ -183,7 +189,7 @@ def verification(request, course_name):
         
     
     else:
-        return render(request  , 'login.html')
+        return HttpResponseRedirect('/login')
     
 def order_success(request , course_id):
     payment_request_id = request.GET.get('payment_request_id')
@@ -290,8 +296,8 @@ def events(request):
     past_events = []
     current_datetime = timezone.localtime(timezone.now())
     for event in all_events:
-        num = (check_event_registration(request , event.event_id))
-        print("num" , num)
+        if(request.user.is_authenticated):
+            num = (check_event_registration(request , event.event_id))
         currenttime = current_datetime.time()
         currentdate = current_datetime.date()
         event_startdatetime = event.event_startdatetime.astimezone(pytz.timezone('Asia/Kolkata'))
@@ -313,8 +319,12 @@ def events(request):
         elif (startdate == currentdate) and (currenttime <= endtime) and (currenttime >= starttime):
             live_events.append({'event': event})
             event.event_status = "Live"
-            # event.save()
-        events.append({'event':event, 'num': num }) 
+                # event.save()
+        if(request.user.is_authenticated):
+            events.append({'event':event, 'num': num }) 
+        else:
+            events.append({'event':event }) 
+
     events.append({'upcoming_events': upcoming_events , 'live_events':live_events , 'past_events':past_events})
     # final = list(zip(events, num))
     print(events)   
@@ -327,10 +337,13 @@ def events(request):
 def register_events(request , event_name):
     event = Event.objects.get(event_name=event_name)
     event_id = event.event_id
-    num = check_event_registration(request , event.event_id)
-    print("num2" , num)
     print(event_id)
+    if(request.user.is_authenticated):
+        num = check_event_registration(request , event.event_id)
     if(request.method == 'POST'):
+        previous_event = request.POST.get('previous_event')
+        event_knowledge = request.POST.get('event_knowledge')
+        event_source = request.POST.get('event_source') 
         print("IN poST method")
         if(request.user.is_authenticated):
             print("student registered for event")
@@ -338,11 +351,16 @@ def register_events(request , event_name):
             logged_user = Student.objects.get(user=request.user)
             event_register.student_id = logged_user
             event_register.event_id = event
+            event_register.previous_event = previous_event
+            event_register.previous_knowledge = event_knowledge
+            event_register.event_source = event_source
             event_register.save()
             return HttpResponseRedirect("/all_events/")
         else:
             return HttpResponseRedirect('/login/')
-    return render(request, 'event_details.html' , {'event': event , 'num':num})
+    if(request.user.is_authenticated):
+        return render(request, 'event_details.html' , {'event': event , 'num':num})
+    return render(request, 'event_details.html' , {'event': event , 'num' : 0})
 
 
 def logout(request):

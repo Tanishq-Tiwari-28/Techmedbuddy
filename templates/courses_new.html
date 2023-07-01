@@ -174,16 +174,16 @@
                             </svg>
                         </div>
                     </div>
-                    {% if course.num == 0 %}
-                        <a href="/all_courses/{{ course.course.course_name}}" rel="noopener noreferrer">
-                            <div class="btn flex-row bg-cyan-600 p-3 -mb-1 rounded-md text-center text-white font-bold hover:bg-blue-950 hover:font-extrabold">
-                                Join Now
-                            </div>
-                        </a>
-                    {% elif course.num == 1 %}
+                    {% if course.num == 1 %}
                         <a href="/all_courses/{{ course.course.course_name}}" rel="noopener noreferrer">
                             <div class="btn flex-row bg-cyan-600 p-3 -mb-1 rounded-md text-center text-white font-bold hover:bg-blue-950 hover:font-extrabold">
                                 Already Registered
+                            </div>
+                        </a>
+                    {% else %}
+                        <a href="/all_courses/{{ course.course.course_name}}" rel="noopener noreferrer">
+                            <div class="btn flex-row bg-cyan-600 p-3 -mb-1 rounded-md text-center text-white font-bold hover:bg-blue-950 hover:font-extrabold">
+                               Join Now
                             </div>
                         </a>
                     {% endif %}

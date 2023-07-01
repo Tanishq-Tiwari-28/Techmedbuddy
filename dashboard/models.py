@@ -84,7 +84,7 @@ class Executive(models.Model):
 
 class Course(models.Model):
     course_id = models.CharField(primary_key=True, max_length=255)
-    course_name = models.CharField(max_length=255)
+    course_name = models.CharField(max_length=255 , blank=True, null=True)
     image = models.CharField(max_length=1000)
     instructor_id = models.ManyToManyField(Instructor)
     course_duration = models.CharField(max_length=100, blank=True, null=True) #convert type to int
@@ -177,6 +177,11 @@ class event_registration(models.Model):
                                    null=True,  on_delete=models.CASCADE)
     event_id = models.ForeignKey(Event, blank=True,
                                    null=True,  on_delete=models.CASCADE)
+    previous_event = models.TextField(blank=True,null=True)
+    previous_knowledge = models.TextField(blank=True,null=True)
+    event_source = models.TextField(blank=True,null=True)
+    feedback = models.TextField(blank=True,null=True)
+    suggestions = models.TextField(blank=True,null=True)
     class Meta:
         managed = True
         db_table = 'event_registeration'

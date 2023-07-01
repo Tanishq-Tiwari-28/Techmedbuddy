@@ -149,20 +149,28 @@
                 <form action="" method="POST" class="w-full inline-block mx-auto font-medium px-5 py-2">
                     {% csrf_token %}
                     <div class="py-2">
-                        <label for="">Have you attended any previous event organized by TechMedBuddy?</label>
-                        <input type="text" id="" name="" required class="w-full py-1 px-3 xl:mb-3 border border-gray-300 rounded-md">
+                        <label for="previous_event">Have you attended any previous event organized by TechMedBuddy?</label>
+                        <input type="text" id="previous_event" name="previous_event" required class="w-full py-1 px-3 xl:mb-3 border border-gray-300 rounded-md">
                     </div>
-                    
+                
                     <div>
-                        <label for="">What do you understand by genetic counselling?</label>
-                        <input type="text" id="" name="" class="w-full py-1 px-3 xl:mb-3 border border-gray-300 rounded-md">
+                        <label for="event_knowledge">What do you understand by genetic counselling?</label>
+                        <input type="text" id="event_knowledge" name="event_knowledge" class="w-full py-1 px-3 xl:mb-3 border border-gray-300 rounded-md">
                     </div>
-
+                
                     <div class="py-2 mb-4">
-                        <label for="">From where did you get to know about the event?</label>
-                        <input type="text" id="" name="" required class="w-full py-1 px-3 xl:mb-3 border border-gray-300 rounded-md">
+                        <label for="event_source">From where did you get to know about the event?</label>
+                        <select id="event_source" name="event_source" required class="w-full py-1 px-3 xl:mb-3 border border-gray-300 rounded-md">
+                            <option value=""></option>
+                            <option value="online">Online advertisement</option>
+                            <option value="friends">Word of mouth from friends</option>
+                            <option value="social_media">Social media</option>
+                            <option value="poster">Poster or flyer</option>
+                            <option value="email">Email newsletter</option>
+                            <option value="other">Other</option>
+                        </select>
                     </div>
-
+                
                     <button type="submit" class="text-white bg-blue-950 hover:bg-cyan-600 text-center rounded-lg p-2 px-4">Register Now</button>
                 </form>
             </div>
@@ -173,22 +181,31 @@
                 <form action="" method="POST" class="w-full inline-block mx-auto font-medium px-5 py-2">
                     {% csrf_token %}
                     <div class="py-2">
-                        <label for="">Have you attended any previous event organized by TechMedBuddy?</label>
-                        <input type="text" id="" name="" required class="w-full py-1 px-3 xl:mb-3 border border-gray-300 rounded-md">
+                        <label for="previous_event">Have you attended any previous event organized by TechMedBuddy?</label>
+                        <input type="text" id="previous_event" name="previous_event" required class="w-full py-1 px-3 xl:mb-3 border border-gray-300 rounded-md">
                     </div>
-                    
+                
                     <div>
-                        <label for="">What do you understand by genetic counselling?</label>
-                        <input type="text" id="" name="" class="w-full py-1 px-3 xl:mb-3 border border-gray-300 rounded-md">
+                        <label for="event_knowledge">What do you understand by genetic counselling?</label>
+                        <input type="text" id="event_knowledge" name="event_knowledge" class="w-full py-1 px-3 xl:mb-3 border border-gray-300 rounded-md">
                     </div>
-
+                
                     <div class="py-2 mb-4">
-                        <label for="">From where did you get to know about the event?</label>
-                        <input type="text" id="" name="" required class="w-full py-1 px-3 xl:mb-3 border border-gray-300 rounded-md">
+                        <label for="event_source">From where did you get to know about the event?</label>
+                        <select id="event_source" name="event_source" required class="w-full py-1 px-3 xl:mb-3 border border-gray-300 rounded-md">
+                            <option value=""></option>
+                            <option value="online">Online advertisement</option>
+                            <option value="friends">Word of mouth from friends</option>
+                            <option value="social_media">Social media</option>
+                            <option value="poster">Poster or flyer</option>
+                            <option value="email">Email newsletter</option>
+                            <option value="other">Other</option>
+                        </select>
                     </div>
-
+                
                     <button type="submit" class="text-white bg-blue-950 hover:bg-cyan-600 text-center rounded-lg p-2 px-4">Register Now</button>
                 </form>
+                
             </div>
             {% endif %}
         {% elif event.event_status == 'Past' %}
@@ -196,13 +213,13 @@
                     <form action="" method="POST" class="w-full inline-block mx-auto font-medium px-5 py-2">
                         {% csrf_token %}
                         <div class="pb-1">
-                            <label for="">Your Feedback</label>
-                            <input type="text" id="" name="" required class="w-full py-1 px-3 xl:mb-3 border border-gray-300 rounded-md">
+                            <label for="feedback">Your Feedback</label>
+                            <input type="text" id="feedback" name="feedback" required class="w-full py-1 px-3 xl:mb-3 border border-gray-300 rounded-md">
                         </div>
                         
                         <div>
-                            <label for="">Suggest any topic for future talks</label>
-                            <input type="text" id="" name="" class="w-full py-1 px-3 xl:mb-3 border border-gray-300 rounded-md">
+                            <label for="suggestions">Suggest any topic for future talks</label>
+                            <input type="text" id="suggestions" name="suggestions" class="w-full py-1 px-3 xl:mb-3 border border-gray-300 rounded-md">
                         </div>
                         
                         <button type="submit" class="text-white bg-blue-950 hover:bg-cyan-600 text-center rounded-lg p-2 px-4">Submit</button>
