@@ -84,7 +84,7 @@ class Executive(models.Model):
 
 class Course(models.Model):
     course_id = models.CharField(primary_key=True, max_length=255)
-    course_name = models.CharField(max_length=255 , blank=True, null=True)
+    course_name = models.CharField(max_length=255)
     image = models.CharField(max_length=1000)
     instructor_id = models.ManyToManyField(Instructor)
     course_duration = models.CharField(max_length=100, blank=True, null=True) #convert type to int

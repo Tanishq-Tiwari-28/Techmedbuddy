@@ -310,6 +310,7 @@ def events(request):
         if (startdate > currentdate) or (startdate == currentdate and currenttime < starttime):
             upcoming_events.append({'event': event})
             event.event_status = "Upcoming"
+
             # event.save()
         elif (startdate < currentdate) or  (startdate == currentdate and currenttime > endtime):
             past_events.append({'event': event})
@@ -327,7 +328,7 @@ def events(request):
 
     events.append({'upcoming_events': upcoming_events , 'live_events':live_events , 'past_events':past_events})
     # final = list(zip(events, num))
-    print(events)   
+    print("eve" ,  events)   
     return render(request, 'events.html', {'events':events })
 
 
@@ -336,9 +337,8 @@ def events(request):
 
 def register_events(request , event_name):
     event = Event.objects.get(event_name=event_name)
-    event_id = event.event_id
-    print(event_id)
     if(request.user.is_authenticated):
+        event_id = event.event_id
         num = check_event_registration(request , event.event_id)
     if(request.method == 'POST'):
         previous_event = request.POST.get('previous_event')

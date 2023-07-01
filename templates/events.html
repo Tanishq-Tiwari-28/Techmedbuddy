@@ -100,6 +100,11 @@
 
     <div class="w-auto sm:w-[700px] md:w-[1000px] mx-auto p-4 text-xl font-semibold">live Events</div>
     <div class=" mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4 w-auto h-auto sm:w-[700px] md:w-[1000px]  shadow-gray-400">
+        {%if events.6.live_events|length == 0%}
+        <div>
+            No Live Events
+        </div>
+        {%endif%}
         {% for event in events %}
             {% if event.event.event_status == "Live" %}
                 <div class="w-auto h-[400px] shadow-xl border border-slate-300 shadow-slate-500 rounded-md p-4 flex flex-col justify-between">
@@ -132,15 +137,19 @@
                     {% endif %}
                 </div>
             {%endif%}
-        
+                
         {%endfor%}
-        {% if not live_events %}
-            NO LIVE EVENTS
-        {%endif%}
+        
+        
     </div>
 
     <div class="w-auto sm:w-[700px] md:w-[1000px] mx-auto p-4 text-xl font-semibold">Upcoming Events</div>
     <div class=" mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4 w-auto h-auto sm:w-[700px] md:w-[1000px]  shadow-gray-400">
+        {%if events.6.upcoming_events|length == 0%}
+        <div>
+            No Upcoming Events
+        </div>
+        {%endif%} 
         {% for event in events %}
             {% if event.event.event_status == "Upcoming" %}
                 <div class="w-auto h-[400px] shadow-xl border border-slate-300 shadow-slate-500 rounded-md p-4 flex flex-col justify-between">
@@ -175,14 +184,18 @@
                 </div>
             {%endif%}
         {%endfor%}
-        {% if not upcoming_events %}
-        NO UPCOMING EVENTS
-        {%endif%}
+        
     </div>
 
 
     <div class="w-auto sm:w-[700px] md:w-[1000px] mx-auto p-4 text-xl font-semibold">Past Events</div>
     <div class="mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4 w-auto h-auto sm:w-[700px] md:w-[1000px]  shadow-gray-400">
+        {%if events.6.past_events|length == 0%}
+        <div>
+            No past Events
+        </div>
+        {%endif%}   
+
         {% for event in events %}
             {% if event.event.event_status == "Past" %}
                 <div class="w-auto h-[400px] shadow-xl border border-slate-300 shadow-slate-500 rounded-md p-4 flex flex-col justify-between">
@@ -211,6 +224,7 @@
                 </div>
             {%endif%}
         {%endfor%}
+        
     </div>
 </body>
 </html>
