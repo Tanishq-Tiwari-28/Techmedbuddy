@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Instamojo pay</title>
+</head>
+<body class="w-[100vw] h-[100vh]">
+    {% if num == 0 %}
+        <div class="flex justify-center">
+            <button class="w-[150px] h-[50px] bg-green-400 text-white rounded-xl mt-[10%]"><a  href="{{payment_url}}">Pay Now</a></button>
+        </div>
+    {% elif num == 1 %}
+        <div class="flex justify-center">
+            <button class="w-[150px] h-[50px] bg-green-400 text-white rounded-xl mt-[10%]"><a  href="/">Already Registered</a></button>
+        </div>
+    {%endif%}
+</body>
+</html>
