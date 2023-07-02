@@ -1,3 +1,4 @@
+{%load static%}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -97,7 +98,7 @@
     <div class="flip-card group  w-auto h-[400px]  [perspective:1000px;]">
       <div class="flip-card-inner w-full h-full duration-700 group-hover:[transform:rotateY(180deg);] [transform-style:preserve-3d]">
         <div class="flip-card-front flex flex-col justify-around shadow-lg rounded-lg absolute w-full h-full bg-blue-900 [-webkit-backface-visibility:hidden;] [backface-visibility:hidden;]">
-          <div class="w-60 h-60 lg:w-40 lg:h-40 bg-slate-300 mx-auto rounded-full hover:w-44 hover:h-44 bg-cover bg-no-repeat" style="background-image: url('{{ instructor.instructor.image}}');"></div>
+          <div class="w-60 h-60 lg:w-40 lg:h-40 bg-slate-300 mx-auto rounded-full hover:w-44 hover:h-44 bg-cover bg-center bg-no-repeat" style="background-image: url({% static ''|add:instructor.instructor.image %});"></div>
           <div class="">
             <p class="text-center font-semibold text-white">{{instructor.instructor.instructor_name}}</p>
             <p class="text-center text-white">{{instructor.instructor.instructor_qualification}}</p>

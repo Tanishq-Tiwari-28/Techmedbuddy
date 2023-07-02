@@ -1,4 +1,4 @@
-    
+{%load static%}
 <!DOCTYPE html>
 <html>
     <head>
@@ -95,13 +95,13 @@
             
             
         </header>
-        
+
         <div class="courses grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 2xl:gap-0 bg-blue-950 h-1/4 mt-20">
     
             <!---------------------------- Course card 1 --------------------->
             {% for course in courses %}
             <div class="2 w-auto bg-white p-2 m-4 rounded-md flex flex-col">
-                <div class="w-full h-40 rounded-sm bg-center bg-no-repeat" style="background-image: url({{course.course.image}});">
+                <div class="w-full h-40 rounded-sm bg-center bg-no-repeat" style="background-image: url({% static ''|add:course.course.image %});">
                 
                 </div>
                 <div class="content flex-col p-2 flex grow justify-between">

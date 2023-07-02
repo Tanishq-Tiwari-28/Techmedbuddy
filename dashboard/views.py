@@ -93,7 +93,7 @@ def login_view(request):
             return HttpResponseRedirect('/')
         else:
             errors = ['Invalid Username/password!!']
-            print(errors)
+            print(errors) 
             return render(request, 'login.html')
 
     return render(request, 'login.html')
@@ -123,14 +123,11 @@ def all_courses(request):
             instructors = list(course.instructor_id.all())
             num = (check_course_registration(request , course.course_id))
             courses.append({'course': course, 'instructors': instructors , 'num':num})
-            print(num)
-            print(courses)
     else:
         for course in all_courses:  
             instructors = list(course.instructor_id.all())
             # num = (check_course_registration(request , course.course_id))
             courses.append({'course': course, 'instructors': instructors})
-            print(courses)
 
     return render(request, "courses.html", {'courses': courses})
 
