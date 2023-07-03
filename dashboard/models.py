@@ -59,15 +59,15 @@ class Intern(models.Model):
         managed = True
         db_table = 'Intern'
 
-class Techteam(models.Model):
-    techteam_id = models.CharField(primary_key=True, max_length=255)
+class Techteam_mem(models.Model):
+    id = models.CharField(primary_key=True, max_length=255)
     image = models.CharField(max_length=1000)
-    techteam_name = models.CharField(max_length=255)
-    techteam_description = models.TextField()
-    techteam_qualification = models.TextField()
+    name = models.CharField(max_length=255)
+    description = models.TextField()
+    qualification = models.TextField()
     class Meta:
         managed = True
-        db_table = 'Techteam'
+        db_table = 'Techteam_mem'
 
 
 class Executive(models.Model):

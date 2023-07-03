@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="main.css">
+    <!-- <link rel="stylesheet" href="main.css"> -->
     <title>TechMedBuddy</title>
 </head>
 <body class="no-underline" >
@@ -21,7 +21,7 @@
                 <li class="group mr-4">Teams
                     <ul class="hidden absolute flex-col group-hover:flex bg-white p-2 shadow-lg shadow-gray-400">
                         <li class="hover:text-blue-800  py-2">
-                            <a href="instructors.html">Instructors</a>
+                            <a href="/all_instructors">Instructors</a>
                         </li>
                         <li class="hover:text-blue-800 py-2">
                             <a href="">Executives</a>
@@ -95,7 +95,29 @@
 	</header>
 
     <div class="my-20 w-[1000px] grid grid-cols-4 gap-2 mx-auto rounded shadow-2xl shadow-blue-800">
+        {% for item in member%}
         <div class="flex flex-col justify-around shadow-lg rounded-lg  h-[300px] bg-blue-900 m-2">
+          <div class="w-40 h-40 bg-slate-300 mx-auto rounded-full bg-cover bg-center bg-no-repeat " style="background-image: url();"></div>
+          <div class="">
+            <p class="text-center font-semibold text-white">{{item.techteam.name}}</p>
+            <p class="text-center text-white">{{item.techteam.description}}</p>
+            <p class="text-center text-white">{{item.techteam.qualification}}</p>
+          </div>
+          <div class="flex justify-center text-white">
+              <a href="https://www.linkedin.com/in/tanishq-tiwari-28b562233" class="mr-6">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4"
+                  fill="currentColor"
+                  viewBox="0 0 24 24">
+                  <path
+                    d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z" />
+                </svg>
+              </a>
+          </div>
+        </div>
+        {%endfor%}
+        <!-- <div class="flex flex-col justify-around shadow-lg rounded-lg  h-[300px] bg-blue-900 m-2">
             <div class="w-40 h-40 bg-slate-300 mx-auto rounded-full bg-cover bg-center bg-no-repeat " style="background-image: url();"></div>
             <div class="">
               <p class="text-center font-semibold text-white">Tanishq Tiwari</p>
@@ -177,7 +199,7 @@
                   </svg>
                 </a>
             </div>
-        </div>
+        </div> -->
     </div>
 
     <!-- Footer container -->

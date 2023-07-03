@@ -2,7 +2,7 @@ from django.contrib.sessions.backends.db import SessionStore
 from django.shortcuts import render,  HttpResponseRedirect
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
-from .models import Course, Student, StudentOptedCourses, student_academics , Event , event_registration, Order , Instructor , Intern , Techteam
+from .models import Course, Student, StudentOptedCourses, student_academics , Event , event_registration, Order , Instructor , Intern ,Techteam_mem
 from django.db.models import Q
 from django.contrib.auth.hashers import make_password, check_password
 from datetime import datetime, date, time
@@ -241,12 +241,14 @@ def Interns(request):
 
 
 def Techteam(request):
-    # all_Techteam = Techteam.objects.all()
-    # techteams = []
-    # for techteam in all_Techteam:
-    #     techteams.append({'techteam': techteam})
-    #     print(techteams)
-    return render(request , 'techteam.html')
+    print('sdgsdfgsdfg')
+    all_Techteam = Techteam_mem.objects.all()
+    print(all_Techteam)
+    member = []
+    for techteam in all_Techteam:
+        member.append({'techteam': techteam})
+        print(member)
+    return render(request , 'techteam.html' ,   {'member':member})
 
 def about(request):
     return render(request , 'about.html')
