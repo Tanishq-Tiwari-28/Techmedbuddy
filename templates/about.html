@@ -1,3 +1,4 @@
+{%load static%}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -104,7 +105,7 @@
         <div class="flex justify-evenly">
           <div onclick="funt(card1,card2,card1c)" class="group flex  ">
           
-            <div   id="card1" class="flex flex-col justify-around shadow-lg rounded-lg w-fit md:w[250px] lg:w-[250px] h-[300px] bg-blue-900 m-2 cursor-pointer bg-cover bg-center" style="background-image: url(images/education.jpg);">
+            <div   id="card1" class="flex flex-col justify-around shadow-lg rounded-lg w-fit md:w[250px] lg:w-[250px] h-[300px] bg-blue-900 m-2 cursor-pointer bg-cover bg-center" style="background-image: url({% static 'images/education.jpg' %});">
               <p class="text-center text-xl font-semibold text-white">Alternative Education System</p>
             </div>
             <div id="card1c" class="hidden flex-col justify-evenly h-[300px] bg-blue-900 m-2 p-2 rounded-lg text-white cursor-pointer">
@@ -117,7 +118,7 @@
 
           <div  onclick="funt(card2,card1,card2c)" class="group flex">
           
-            <div id="card2" class="flex flex-col justify-around shadow-lg rounded-lg w-full lg:w-[250px] h-[300px] bg-blue-900 m-2 cursor-pointer bg-right bg-cover" style="background-image: url(images/bioinfo.jpg);">
+            <div id="card2" class="flex flex-col justify-around shadow-lg rounded-lg w-full lg:w-[250px] h-[300px] bg-blue-900 m-2 cursor-pointer bg-right bg-cover" style="background-image: url({% static 'images/bioinfo.jpg' %});">
               <p class="text-center text-xl p-2 font-semibold text-white ">Skilled Bioinformaticians in India</p>
             </div>
             <div id="card2c" class="hidden flex-col justify-evenly h-[300px] bg-blue-900 m-2 p-2 rounded-lg text-white cursor-pointer">
@@ -132,7 +133,7 @@
         <div class="flex justify-evenly">
           <div  onclick="fun(card3,card4,card3c)" class="group flex ">
           
-            <div id="card3" class="flex flex-col justify-center shadow-lg rounded-lg w-full lg:w-[250px] h-[300px] m-2 cursor-pointer bg-cover bg-no-repeat bg-center" style="background-image: url(images/bridge.jpg);">
+            <div id="card3" class="flex flex-col justify-center shadow-lg rounded-lg w-full lg:w-[250px] h-[300px] m-2 cursor-pointer bg-cover bg-no-repeat bg-center" style="background-image: url({% static 'images/bridge.jpg' %});">
               <p class="text-center text-xl font-semibold text-black -mt-12">Bridging the Gap</p>
             </div>
             <div id="card3c" class="hidden flex-col justify-evenly min-h-[300px] bg-blue-900 m-2 p-2 rounded-lg text-white cursor-pointer">
@@ -145,7 +146,7 @@
 
           <div  onclick="fun(card4,card3,card4c)"  class="group flex [transition:width_2s,height_4s] hover:transition hover:ease-in-out duration-500 ">
           
-            <div id="card4" class="flex flex-col justify-around shadow-lg rounded-lg w-full lg:w-[250px] h-[300px] bg-blue-900 m-2 cursor-pointer bg-center bg-cover" style="background-image: url(images/empoweringStudents.jpg);">
+            <div id="card4" class="flex flex-col justify-around shadow-lg rounded-lg w-full lg:w-[250px] h-[300px] bg-blue-900 m-2 cursor-pointer bg-center bg-cover" style="background-image: url({% static 'images/empoweringStudents.jpg' %});">
               <p class="text-center text-xl font-semibold text-black -mt-12">Empowering Students</p>
             </div>
             <div id="card4c" class="hidden flex-col justify-evenly h-[300px] bg-blue-900 m-2 p-2 rounded-lg text-white cursor-pointer">
@@ -161,7 +162,7 @@
       </div>
 
       <div class="w-1/2 flex flex-col justify-center">
-        <div class="w-full h-[400px] bg-contain  bg-center bg-no-repeat" style="background-image: url(images/home.jpg);"></div>
+        <div class="w-full h-[400px] bg-contain  bg-center bg-no-repeat" style="background-image: url({% static 'images/home.jpg' %});"></div>
         <div class="mt-[5%] text-end text-slate-300 m-2"><a href="https://www.freepik.com/free-vector/business-team-putting-together-jigsaw-puzzle-isolated-flat-vector-illustration-cartoon-partners-working-connection-teamwork-partnership-cooperation-concept_10606197.htm#query=about%20us&position=2&from_view=search&track=ais">Image by pch.vector</a> on Freepik</div>
       </div>
       
