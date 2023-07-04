@@ -36,6 +36,8 @@ class Instructor(models.Model):
     instructor_name = models.CharField(max_length=255)
     instructor_description = models.CharField(max_length=10000)
     instructor_qualification = models.CharField(max_length=255)
+    twitter = models.CharField(max_length=255 , blank=True , null=True)
+    linkdln = models.CharField(max_length=255 , blank=True , null=True)
     # date_of_birth = models.DateField()
     # gender = models.CharField(max_length=6)
     # phone_number = models.CharField(max_length=20)
@@ -65,20 +67,24 @@ class Techteam_mem(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
     qualification = models.TextField()
+    linkdln = models.CharField(max_length=255 , blank=True , null=True)
+
     class Meta:
         managed = True
         db_table = 'Techteam_mem'
 
 
-class Executive(models.Model):
+class Executive_team(models.Model):
     executives_id = models.CharField(primary_key=True, max_length=255)
     image = models.CharField(max_length=1000)
     executives_name = models.CharField(max_length=255)
     executives_description = models.TextField()
     executives_qualification = models.TextField()
+    linkdln = models.CharField(max_length=255 , blank=True , null=True)
+
     class Meta:
         managed = True
-        db_table = 'Executives'
+        db_table = 'Executive_team'
 
 
 

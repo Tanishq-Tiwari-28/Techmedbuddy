@@ -14,6 +14,7 @@ urlpatterns = [
     path('all_instructors/', instructors),
     path('all_interns/' , Interns),
     path('techteam/' , Techteam),
+    path('executives/' , Executive),
     path('about/' , about),
     path('all_events/<path:event_name>/' , register_events),
     path('all_events/' , events),

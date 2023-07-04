@@ -24,7 +24,7 @@
                             <a href="/all_instructors">Instructors</a>
                         </li>
                         <li class="hover:text-blue-800 py-2">
-                            <a href="">Executives</a>
+                            <a href="/executives">Executives</a>
                         </li>
                     </ul>
                 </li>
@@ -97,14 +97,14 @@
     <div class="my-20 w-[1000px] grid grid-cols-4 gap-2 mx-auto rounded shadow-2xl shadow-blue-800">
         {% for item in member%}
         <div class="flex flex-col justify-around shadow-lg rounded-lg  h-[300px] bg-blue-900 m-2">
-          <div class="w-40 h-40 bg-slate-300 mx-auto rounded-full bg-cover bg-center bg-no-repeat " style="background-image: url();"></div>
+          <div class="w-40 h-40 bg-slate-300 mx-auto rounded-full bg-cover bg-center bg-no-repeat " style="background-image: url({% static ''|add:item.techteam.image %});"></div>
           <div class="">
             <p class="text-center font-semibold text-white">{{item.techteam.name}}</p>
             <p class="text-center text-white">{{item.techteam.description}}</p>
             <p class="text-center text-white">{{item.techteam.qualification}}</p>
           </div>
           <div class="flex justify-center text-white">
-              <a href="https://www.linkedin.com/in/tanishq-tiwari-28b562233" class="mr-6">
+              <a href="{{item.techteam.linkdln}}" target="_blank"="mr-6">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   class="h-4 w-4"
@@ -117,89 +117,7 @@
           </div>
         </div>
         {%endfor%}
-        <!-- <div class="flex flex-col justify-around shadow-lg rounded-lg  h-[300px] bg-blue-900 m-2">
-            <div class="w-40 h-40 bg-slate-300 mx-auto rounded-full bg-cover bg-center bg-no-repeat " style="background-image: url();"></div>
-            <div class="">
-              <p class="text-center font-semibold text-white">Tanishq Tiwari</p>
-              <p class="text-center text-white">Backend Developer</p>
-              <p class="text-center text-white">IIITD</p>
-            </div>
-            <div class="flex justify-center text-white">
-                <a href="https://www.linkedin.com/in/tanishq-tiwari-28b562233" class="mr-6">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-4 w-4"
-                    fill="currentColor"
-                    viewBox="0 0 24 24">
-                    <path
-                      d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z" />
-                  </svg>
-                </a>
-            </div>
-        </div>
-
-        <div class="flex flex-col justify-around shadow-lg rounded-lg  h-[300px] bg-blue-900 m-2">
-            <div class="w-40 h-40 bg-slate-300 mx-auto rounded-full bg-cover bg-center bg-no-repeat " style="background-image: url();"></div>
-            <div class="">
-              <p class="text-center font-semibold text-white">Om Garg</p>
-              <p class="text-center text-white">Backendend Developer</p>
-              <p class="text-center text-white">IIITD</p>
-            </div>
-            <div class="flex justify-center text-white">
-                <a href="https://www.linkedin.com/in/om-garg-b44619257" class="mr-6">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-4 w-4"
-                    fill="currentColor"
-                    viewBox="0 0 24 24">
-                    <path
-                      d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z" />
-                  </svg>
-                </a>
-            </div>
-        </div>
-
-        <div class="flex flex-col justify-around shadow-lg rounded-lg  h-[300px] bg-blue-900 m-2">
-            <div class="w-40 h-40 bg-slate-300 mx-auto rounded-full bg-cover bg-center bg-no-repeat " style="background-image: url();"></div>
-            <div class="">
-              <p class="text-center font-semibold text-white">Gurpal Singh</p>
-              <p class="text-center text-white">Frontend Developer</p>
-              <p class="text-center text-white">Chitkara University</p>
-            </div>
-            <div class="flex justify-center text-white">
-                <a href="https://www.linkedin.com/in/gurpal-singh-914060226" class="mr-6">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-4 w-4"
-                    fill="currentColor"
-                    viewBox="0 0 24 24">
-                    <path
-                      d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z" />
-                  </svg>
-                </a>
-            </div>
-        </div>
-
-        <div class="flex flex-col justify-around shadow-lg rounded-lg h-[300px] bg-blue-900 m-2">
-            <div class="w-40 h-40 bg-slate-300 mx-auto rounded-full bg-cover bg-center bg-no-repeat " style="background-image: url();"></div>
-            <div class="">
-              <p class="text-center font-semibold text-white">Prakriti Garg</p>
-              <p class="text-center text-white">Web Developer</p>
-              <p class="text-center text-white">B.Tec. CSB(IIITD)</p>
-            </div>
-            <div class="flex justify-center text-white">
-                <a href="https://www.linkedin.com/in/prakriti-garg" class="mr-6">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-4 w-4"
-                    fill="currentColor"
-                    viewBox="0 0 24 24">
-                    <path
-                      d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z" />
-                  </svg>
-                </a>
-            </div>
-        </div> -->
+        
     </div>
 
     <!-- Footer container -->
@@ -214,7 +132,7 @@ class="bg-blue-900 text-center text-white lg:text-left">
   <div class="flex justify-center">
     
     
-    <a href="https://www.linkedin.com/company/techmedbuddy/" class="mr-6">
+    <a href="https://www.linkedin.com/company/techmedbuddy/" target="_blank" class="mr-6">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         class="h-4 w-4"
@@ -224,7 +142,7 @@ class="bg-blue-900 text-center text-white lg:text-left">
           d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z" />
       </svg>
     </a>
-    <a href="https://www.youtube.com/channel/UCpo_47ELnxmhmG-A8jGlJeQ" class="mr-6">
+    <a href="https://www.youtube.com/channel/UCpo_47ELnxmhmG-A8jGlJeQ" target="_blank" class="mr-6">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-youtube" viewBox="0 0 16 16">
             <path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.007 2.007 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.007 2.007 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31.4 31.4 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.007 2.007 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A99.788 99.788 0 0 1 7.858 2h.193zM6.4 5.209v4.818l4.157-2.408L6.4 5.209z"/>
           </svg>
@@ -238,16 +156,16 @@ class="bg-blue-900 text-center text-white lg:text-left">
     <!-- Company section -->
     <div class="">
       <h6
-        class="mb-4 flex justify-center font-semibold uppercase md:justify-start">
+        class="mb-4 w-fit mx-auto flex justify-center font-semibold uppercase md:justify-start">
         Company
       </h6>
-      <p class="mb-4">
-        <a href="about.html" class=""
+      <p class="mb-4 w-fit mx-auto">
+        <a href="/about" class=""
           >About</a
         >
       </p>
-      <p class="mb-4">
-        <a href="instructors.html" class=""
+      <p class="mb-4 w-fit mx-auto">
+        <a href="/all_instructors" class=""
           >Meet the Team</a
         >
       </p>
@@ -255,21 +173,21 @@ class="bg-blue-900 text-center text-white lg:text-left">
     <!-- Useful links section -->
     <div class="">
       <h6
-        class="mb-4 flex justify-center font-semibold uppercase md:justify-start">
+        class="mb-4 w-fit mx-auto flex justify-center font-semibold uppercase md:justify-start">
         Useful links
       </h6>
-      <p class="mb-4">
-        <a href="events.html" class=""
+      <p class="mb-4 w-fit mx-auto">
+        <a href="/all_events" class=""
           >Events</a
         >
       </p>
-      <p class="mb-4">
-        <a href="courses.html" class=""
+      <p class="mb-4 w-fit mx-auto">
+        <a href="/all_courses" class=""
           >Courses</a
         >
       </p>
-      <p class="mb-4">
-        <a href="interns.html" class=""
+      <p class="mb-4 w-fit mx-auto">
+        <a href="/all_interns" class=""
           >Interns</a
         >
       </p>

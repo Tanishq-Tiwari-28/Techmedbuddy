@@ -2,7 +2,7 @@ from django.contrib.sessions.backends.db import SessionStore
 from django.shortcuts import render,  HttpResponseRedirect
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
-from .models import Course, Student, StudentOptedCourses, student_academics , Event , event_registration, Order , Instructor , Intern ,Techteam_mem
+from .models import Course, Student, StudentOptedCourses, student_academics , Event , event_registration, Order , Instructor , Intern ,Techteam_mem , Executive_team
 from django.db.models import Q
 from django.contrib.auth.hashers import make_password, check_password
 from datetime import datetime, date, time
@@ -13,6 +13,9 @@ from django.utils import timezone
 from datetime import timedelta , time
 from urllib.parse import unquote
 from datetime import datetime, timedelta, time
+import pytz
+from django.contrib import messages
+
 # for Payment Gateway
 from instamojo_wrapper import Instamojo
 from django.conf import settings
@@ -28,8 +31,8 @@ def home(request):
 
 
 def signup_view(request):
+    response =1
     if request.method == 'POST':
-        print("hello")
         email = request.POST.get('email')
         password = request.POST.get('password')
         first_name = request.POST.get('first_name')
@@ -48,7 +51,8 @@ def signup_view(request):
         errors = []
         if user:
             errors.append('User already exists!! Please login')
-            print(errors[-1])
+            response =0 
+
         else:
             user = User(username=email, password=make_password(password))
             user.email = email
@@ -74,12 +78,12 @@ def signup_view(request):
             student_academic.passing_year = passing_year
             student_academic.save()
             errors.append('Sign Up Successfull!! Please Login.')
-            print('errors', errors[-1])
             return HttpResponseRedirect('/login/')
-    return render(request, 'form.html')
+    return render(request, 'form.html'  , {'response':response , 'show_alert': response == 0})
 
 
 def login_view(request):
+    response = 1
     if request.method == 'POST':
         post_data = request.POST
         username = post_data.get('email')
@@ -89,14 +93,13 @@ def login_view(request):
         if user and check_password(password, user.password):
             request_login_user(
                 request, user, backend='django.contrib.auth.backends.ModelBackend')
-            print('logged in')
             return HttpResponseRedirect('/')
+        elif not user:
+            response = -1
         else:
-            errors = ['Invalid Username/password!!']
-            print(errors) 
-            return render(request, 'login.html')
+            response =0
 
-    return render(request, 'login.html')
+    return render(request, 'login.html' , {'response':response , 'show_alert': response == 0 ,'show_alert2': response == -1  })
 
 
 
@@ -139,7 +142,6 @@ def register_courses(request, course_name):
     prerequisites = prerequisites.split(",")
     learning_outcomes = course.learning_outcomes
     learning_outcomes = learning_outcomes.split(",")
-    print(learning_outcomes)
     response = 0
     if(course.cost.split(' ')[0][0] > '0' and course.cost.split(' ')[0][0] <= '9'):
         response =1
@@ -147,7 +149,6 @@ def register_courses(request, course_name):
 
 # for payment gateway
 def verification(request, course_name):
-    print(course_name, "dfgdsfgsd")
     if(request.user.is_authenticated):
         logged_user = Student.objects.get(user=request.user)
         api = Instamojo(api_key = settings.API_KEY, auth_token = settings.AUTH_TOKEN, endpoint = "https://test.instamojo.com/api/1.1/")
@@ -159,10 +160,8 @@ def verification(request, course_name):
             is_paid = False
         )
         num = check_course_registration(request , course.course_id)
-        print("num" , num)
         if(num == 0):
             url = f"http://127.0.0.1:8000/order_success/{course.course_id}/"
-            print("dugldugdsugsldfugsldhugf" , url)
             # Create a new Payment Request
             response = api.payment_request_create(
                 amount=course.cost,
@@ -172,7 +171,6 @@ def verification(request, course_name):
                 email= request.user.email,
                 redirect_url=url
             )
-            print(response)
             order_obj.order_id = response['payment_request']['id']
             order_obj.status = response['payment_request']['status']
             order_obj.instamojo_response = response
@@ -223,36 +221,6 @@ def order_success(request , course_id):
 
     return HttpResponseRedirect('/')    
 
-def instructors(request):
-    all_instructors = Instructor.objects.all()
-    instructors = []
-    for instructor in all_instructors:
-        instructors.append({'instructor': instructor})
-        print(instructors)
-    return render(request , 'instructors.html' ,  {'instructors':instructors})
-
-
-def Interns(request):
-    all_interns = Intern.objects.all()
-    interns = []
-    for intern in all_interns:
-        interns.append({'intern':intern})
-    return render(request , 'interns.html' ,  {'interns':interns})
-
-
-def Techteam(request):
-    print('sdgsdfgsdfg')
-    all_Techteam = Techteam_mem.objects.all()
-    print(all_Techteam)
-    member = []
-    for techteam in all_Techteam:
-        member.append({'techteam': techteam})
-        print(member)
-    return render(request , 'techteam.html' ,   {'member':member})
-
-def about(request):
-    return render(request , 'about.html')
-
 def add_times(time1, time2):
     # Create datetime objects with the minimum date and the time values
     datetime1 = datetime.combine(datetime.min, time1)
@@ -286,7 +254,7 @@ def check_event_registration(request , event_id):
 
 
 
-import pytz
+
 
 def events(request):
     all_events = Event.objects.all()
@@ -314,7 +282,6 @@ def events(request):
         elif (startdate < currentdate) or  (startdate == currentdate and currenttime > endtime):
             past_events.append({'event': event})
             event.event_status = "Past"
-            print(event)
             event.save()
         elif (startdate == currentdate) and (currenttime <= endtime) and (currenttime >= starttime):
             live_events.append({'event': event})
@@ -327,11 +294,7 @@ def events(request):
 
     events.append({'upcoming_events': upcoming_events , 'live_events':live_events , 'past_events':past_events})
     # final = list(zip(events, num))
-    print("eve" ,  events)   
     return render(request, 'events.html', {'events':events })
-
-
-
 
 
 def register_events(request , event_name):
@@ -343,10 +306,8 @@ def register_events(request , event_name):
         event_knowledge = request.POST.get('event_knowledge')
         event_source = request.POST.get('event_source')
         
-        print("IN poST method")
         if(request.user.is_authenticated):
             if(event.event_status == "Upcoming" or event.event_status == "Live"):
-                print("student registered for event")
                 event_register = event_registration()
                 logged_user = Student.objects.get(user=request.user)
                 event_register.student_id = logged_user
@@ -384,8 +345,41 @@ def register_events(request , event_name):
         return render(request, 'event_details.html' , {'event': event , 'num' : 0})
 
 
+def instructors(request):
+    all_instructors = Instructor.objects.all()
+    instructors = []
+    for instructor in all_instructors:
+        instructors.append({'instructor': instructor})
+    return render(request , 'instructors.html' ,  {'instructors':instructors})
+
+
+def Interns(request):
+    all_interns = Intern.objects.all()
+    interns = []
+    for intern in all_interns:
+        interns.append({'intern':intern})
+    return render(request , 'interns.html' ,  {'interns':interns})
+
+
+def Techteam(request):
+    all_Techteam = Techteam_mem.objects.all()
+    member = []
+    for techteam in all_Techteam:
+        member.append({'techteam': techteam})
+    return render(request , 'techteam.html' ,   {'member':member})
+
+def Executive(request):
+    all_exectives = Executive_team.objects.all()
+    member = []
+    for executive in all_exectives:
+        member.append({'executive': executive})
+    return render(request , 'executives.html' ,   {'member':member})
+
+
+def about(request):
+    return render(request , 'about.html')
+
 def logout(request):
     logged_user = Student.objects.get(user=request.user)
     request_logout_user(request)
-    print("logged out")
     return HttpResponseRedirect('/')

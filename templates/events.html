@@ -1,3 +1,4 @@
+{%load static%}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,11 +27,11 @@
                             <a href="/techteam">Technical Team</a>
                         </li>
                         <li class="hover:text-blue-800 py-2">
-                            <a href="">Executives</a>
+                            <a href="/executives">Executives</a>
                         </li>
                     </ul>
                 </li>
-				<li class="mr-4 hover:text-blue-800 "><a href="/all_events">Events</a></li>
+				
 			</ul>
 
             <ul class="flex font-semibold text-xl">
@@ -44,8 +45,8 @@
                 {% endif %}
 			</ul>
 		</nav>
-		<div style="margin-left: 50%;" class="z-40 fixed flex bg-white rounded-full shadow-md ml-96 ">
-			<!-- <img src="images/Course card.PNG" alt="Logo"> -->
+		<div style="margin-left: 50%; " class="z-40 fixed flex bg-white rounded-full shadow-md ml-96 ">
+			<!-- <img src="{% static 'images/event_banner.jpg' %}" alt="Logo"> -->
                 <svg class="" width="75" height="75" viewBox="0 0 75 75" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                 <mask id="mask0_71_230" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="75" height="75">
                 <path d="M0 0H74.9779V74.98H0V0Z" fill="white"/>
@@ -96,7 +97,7 @@
 		
 	</header>
 
-    <div class="mt-20 w-auto sm:w-[700px] md:w-[1000px] h-[250px] mx-auto rounded p-2 my-2 bg-blue-900"></div>
+    <div class="mt-20 w-auto sm:w-[700px] md:w-[1000px] h-[250px] mx-auto rounded p-2 my-2 bg-blue-900 bg-center bg-cover" style="background-image: url({% static 'images/event_banner.jpg' %}); overflow:none"></div>
 
     <div class="w-auto sm:w-[700px] md:w-[1000px] mx-auto p-4 text-xl font-semibold">live Events</div>
     <div class=" mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4 w-auto h-auto sm:w-[700px] md:w-[1000px]  shadow-gray-400">
@@ -108,7 +109,7 @@
         {% for event in events %}
             {% if event.event.event_status == "Live" %}
                 <div class="w-auto h-[400px] shadow-xl border border-slate-300 shadow-slate-500 rounded-md p-4 flex flex-col justify-between">
-                    <div class="w-full h-40 rounded-sm bg-slate-300 bg-cover bg-center bg-no-repeat" style="background-image: url();">
+                    <div class="w-full h-40 rounded-sm bg-slate-300 bg-cover bg-center bg-no-repeat" style="background-image: url({% static ''|add:event.event.event_banner %});">
                     </div>
 
                     <div class="text-xl font-medium py-4">{{event.event.event_name}}</div>
@@ -153,7 +154,7 @@
         {% for event in events %}
             {% if event.event.event_status == "Upcoming" %}
                 <div class="w-auto h-[400px] shadow-xl border border-slate-300 shadow-slate-500 rounded-md p-4 flex flex-col justify-between">
-                    <div class="w-full h-40 rounded-sm bg-slate-300 bg-cover bg-center bg-no-repeat" style="background-image: url();">
+                    <div class="w-full h-40 rounded-sm bg-slate-300 bg-cover bg-center bg-no-repeat" style="background-image: url({% static ''|add:event.event.event_banner %});">
                     </div>
 
                     <div class="text-xl font-medium py-4">{{event.event.event_name}}</div>
@@ -198,13 +199,13 @@
 
         {% for event in events %}
             {% if event.event.event_status == "Past" %}
-                <div class="w-auto h-[400px] shadow-xl border border-slate-300 shadow-slate-500 rounded-md p-4 flex flex-col justify-between">
-                    <div class="w-full h-40 rounded-sm bg-slate-300 bg-cover bg-center bg-no-repeat" style="background-image: url();">
+                <div class="w-auto shadow-xl border border-slate-300 shadow-slate-500 rounded-md p-4 flex flex-col justify-between">
+                    <div class="w-full h-[100px] rounded-sm bg-slate-300 bg-cover bg-center bg-no-repeat" style="background-image: url({% static ''|add:event.event.event_banner %});">
                     </div>
 
                     <div class="text-xl font-medium py-4">{{event.event.event_name}}</div>
                     <div class="">
-                        {{ event.event.event_description|slice:":100" }}
+                        {{ event.event.event_description|slice:":100"}}...
                     </div>
 
                     <div class="flex justify-between my-4">
@@ -239,7 +240,7 @@
      <div class="flex justify-center">
        
        
-       <a href="https://www.linkedin.com/company/techmedbuddy/" class="mr-6">
+       <a href="https://www.linkedin.com/company/techmedbuddy/" target="_blank" class="mr-6">
          <svg
            xmlns="http://www.w3.org/2000/svg"
            class="h-4 w-4"
@@ -249,7 +250,7 @@
              d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z" />
          </svg>
        </a>
-       <a href="https://www.youtube.com/channel/UCpo_47ELnxmhmG-A8jGlJeQ" class="mr-6">
+       <a href="https://www.youtube.com/channel/UCpo_47ELnxmhmG-A8jGlJeQ" target="_blank" class="mr-6">
            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-youtube" viewBox="0 0 16 16">
                <path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.007 2.007 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.007 2.007 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31.4 31.4 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.007 2.007 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A99.788 99.788 0 0 1 7.858 2h.193zM6.4 5.209v4.818l4.157-2.408L6.4 5.209z"/>
              </svg>
@@ -263,15 +264,15 @@
        <!-- Company section -->
        <div class="">
          <h6
-           class="mb-4 flex justify-center font-semibold uppercase ">
+           class="mb-4 w-fit mx-auto w-fit mx-autoflex justify-center font-semibold uppercase ">
            Company
          </h6>
-         <p class="mb-4">
-           <a href="#" class=""
+         <p class="mb-4 w-fit mx-auto">
+           <a href="/about" class=""
              >About</a
            >
          </p>
-         <p class="mb-4">
+         <p class="mb-4 w-fit mx-auto">
            <a href="/all_instructors" class=""
              >Meet the Team</a
            >
@@ -280,21 +281,21 @@
        <!-- Useful links section -->
        <div class="flex flex-col ">
          <h6
-           class="mb-4 flex justify-center font-semibold uppercase ">
+           class="mb-4 w-fit mx-auto flex justify-center font-semibold uppercase ">
            Useful links
          </h6>
-         <p class="mb-4">
+         <p class="mb-4 w-fit mx-auto">
            <a href="/all_events" class=""
              >Events</a
            >
          </p>
-         <p class="mb-4">
+         <p class="mb-4 w-fit mx-auto">
            <a href="/all_courses" class=""
              >Courses</a
            >
          </p>
-         <p class="mb-4">
-           <a href="#" class=""
+         <p class="mb-4 w-fit mx-auto">
+           <a href="/all_interns" class=""
              >Interns</a
            >
          </p>

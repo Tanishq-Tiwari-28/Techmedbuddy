@@ -7,6 +7,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://cdn.tailwindcss.com"></script>
         <link rel="stylesheet" href="../static/src/main.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
         <title>TechMedBuddy</title>
     </head>
     <body>
@@ -72,7 +75,21 @@
             
         </header>
     
-
+    
+    {% if show_alert2 %}
+    <script>
+        window.onload = function() {
+        alert("User Does not exists");
+        };
+    </script>
+    {% endif %}
+    {% if show_alert %}
+    <script>
+        window.onload = function() {
+        alert("Invalid Email or Password");
+        };
+    </script>
+    {% endif %}
     <div class="main flex mt-24">
         <div class="pic w-1/2 xl:w-1/2 -mt-14">
             <img class="mt-16" src="{% static 'images/login.jpg' %}" alt="no img" srcset="">
@@ -102,5 +119,22 @@
         </div>
     </div>
 
+    
+
 </body>
+<script>
+    // Function to show the alert message
+    function showAlert(message) {
+        const alertMessage = document.getElementById('alert-message');
+        alertMessage.innerHTML = '<ul><li>' + message + '</li></ul>';
+        alertMessage.classList.remove('hidden');
+    }
+
+    // Show the alert message on page load if needed
+    window.addEventListener('DOMContentLoaded', function () {
+        {% if messages %}
+        showAlert('{{ messages|first }}');
+        {% endif %}
+    });
+</script>
 </html>
