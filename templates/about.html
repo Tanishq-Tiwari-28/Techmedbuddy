@@ -10,11 +10,46 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="main.css">
+    <!-- <link rel="stylesheet" href="main.css"> -->
+    
     <title>TechMedBuddy</title>
 </head>
 <body class="no-underline" >
-
+    <script>
+        let c=1
+      function funt(x,y,z) {
+          if (c%2===1){
+              y.style.display = "none";
+          x.style.display = "none";
+          z.style.display = "flex";
+          c++;
+          }
+          else{
+              y.style.display = "flex";
+          x.style.display = "flex";
+          z.style.display = "none";
+          c++;
+          }
+      }
+      
+      let c1=1
+      function fun(x,y,z) {
+          if (c1%2===1){
+              y.style.display = "none";
+          x.style.display = "none";
+          z.style.display = "flex";
+          c1++;
+          }
+          else{
+              y.style.display = "flex";
+          x.style.display = "flex";
+          z.style.display = "none";
+          c1++;
+          }
+      }
+    </script>
+      
+  
     <!--------------------------------- Header --------------------------------->
     <header class="flex ">
         <nav class="z-30 bg-white flex justify-between fixed w-full h-16 shadow-md p-4">
