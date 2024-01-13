@@ -153,7 +153,7 @@ SALT = "a30f1ca3293a42739603d4191330a774"
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = '587'
 EMAIL_HOST_USER = 'om21481@iiitd.ac.in'
-EMAIL_HOST_PASSWORD = "elntggoslkodvodb"
+EMAIL_HOST_PASSWORD = ""
 EMAIL_USE_TLS = True
 
 
